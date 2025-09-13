@@ -1,0 +1,257 @@
+.submenu {
+    padding: 30px 0px;
+    z-index: 10; /* Assure que le sous-menu reste au-dessus d'autres éléments */
+    top: 100%; /*avoir le sous menu en bas du header*/
+    display: block; /* Utilisé pour l'animation (au lieu de display: none) */
+    position: absolute; /* Le positionnement absolu évite le déplacement des éléments principaux */
+    opacity: 0; /* Invisible par défaut */
+    visibility: hidden; /* Empêche l'interaction */
+    transform: translateY(-20px) scale(0.95) rotateX(-15deg); /* Position initiale avec effet 3D */
+    transform-origin: top center; /* Point de rotation */
+    transition: 
+        opacity 0.5s ease, 
+        transform 0.5s cubic-bezier(0.23, 1, 0.32, 1); /* Animation douce avec bézier */
+}
+.menu li {
+  position: relative;
+  padding-bottom: 10px; /* Zone invisible pour garder l'état de survol */
+}
+/* Au survol, le sous-menu apparaît avec une animation fluide */
+.menu li:hover .submenu {
+  opacity: 1; /* Rendre visible */
+  visibility: visible; /* Activer les interactions */
+  transform: translateY(0) scale(1) rotateX(0); /* Retour à une position normale */
+}
+/* Apparence des liens du sous-menu avec effet */
+.submenu li a {
+  color: white;
+  display: block;
+  padding: 10px 20px;
+  background-color: #32ac64;
+  transition: 
+      background-color 0.3s ease, 
+      transform 0.3s ease; /* Transition pour hover */
+}
+.submenu li a:hover {
+  background-color: #1c4388;
+  transform: scale(1.1); /* Zoom au survol */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Effet d'ombre */
+}
+
+.subsubmenu {
+    display: none;
+}
+.menu li:hover .liste-ventes:hover .subsubmenu{
+  display: block;
+}
+a{
+    color: white;
+}
+.navbar {
+    position: absolute;
+    padding: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 12px;
+    box-sizing: border-box;
+    position: fixed;
+    z-index: 100;
+    background-color: #118a21;
+    
+}
+.menu {
+    display: flex;
+}
+.navbar .navlinks ul li{
+  margin: 0 25px;
+}
+/* de base l'icone du menu ne doit pas apparaitre */
+.icone-menu{
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 30px;
+    width: 35px;
+}
+@media screen and (max-width: 738px) {
+    /* faire apparaitre l'icone du menu quand on est en dessous de 738px (sur un écran petit tel que le téléphone) */
+    .icone-menu{
+        display: block;
+        z-index: 10;
+    }
+    /* faire disparaitre le menu de base sur petit écran */
+    .navbar{
+      padding: 0;
+    }
+    .navbar .logo {
+      position: absolute;
+      top: 40px;
+      left: 30px;
+  }
+    .navlinks{
+      top: 0;
+      left: 0;
+      position: absolute;
+      background-color: rgba(255, 255, 255, 0.20);
+      backdrop-filter: blur(8px);
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-left: -100%;
+      transition: all 0.5s ease;
+      z-index: 10;
+    }
+    .navlinks.mobile-menu{
+      margin-left: 0;
+    }
+    .navlinks ul{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .navbar .navlinks ul li{
+      margin: 25px 0;
+      font-size: 1.2em ;
+    }
+    .menu li .submenu{
+      display: none;
+  }
+  .menu li:hover .submenu{
+    display: block;
+}
+  .logo{
+    opacity: 0;
+  }
+}
+
+.icone-menu {
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  width: 35px;
+}
+
+
+
+@keyframes glowing {
+    0% {
+      box-shadow: 0 0 5px #1c4388;
+    }
+    50% {
+      box-shadow: 0 0 20px #1c4388;
+    }
+    100% {
+      box-shadow: 0 0 5px #1c4388;
+    }
+  }
+  
+  .button {
+    
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    animation: glowing 1.5s infinite;
+  }
+  .button:hover{
+    background-color: #1c4388;
+  }
+  
+  @keyframes blink {
+    50% {
+      border-color: transparent;
+    }
+  }
+  
+
+  /*couleur du menu au survol  */
+  .menu-items:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transform: scaleY(2);
+    transition: 0.4s;
+    border-top: 2px solid #1c4388;
+    border-bottom: 2px solid #1c4388;
+  }
+  
+  .menu-items:hover:before {
+    transform: scaleY(1.2);
+    opacity: 1;
+  }
+  
+  .menu-items:after {
+    content: "";
+    background: #1c4388;
+    position: absolute;
+    top: 2;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: 0.4s;
+    transform: scale(0);
+    z-index: -1;
+  }
+  
+  .menu-items:hover:after {
+    transform: scale(1);
+  }
+  
+  .menu-items:hover {
+    color: #fff;
+  }
+
+.router-link-active {
+  color: #0B2553; /* couleur dorée pour le lien actif */
+  font-weight: bold;
+  border-bottom: 2px solid #1C4388;
+}
+
+/* Bouton connecter apres connexion */
+
+.user-btn {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  transition: background 0.3s;
+}
+
+.user-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 130%;
+  right: 0;
+  background: white;
+  color: black;
+  list-style: none;
+  padding: 0.7rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  z-index: 999;
+}
+
+.dropdown-menu li {
+  margin: 0.4rem 0;
+}
+
+.dropdown-menu a {
+  text-decoration: none;
+  color: black;
+  transition: color 0.2s;
+}
+
+.dropdown-menu a:hover {
+  color: #3b4cca;
+}

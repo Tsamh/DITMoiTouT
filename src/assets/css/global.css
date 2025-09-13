@@ -1,0 +1,215 @@
+* {
+    list-style: none;
+    text-decoration: none;
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+/* .container{
+  margin: 0px;
+} */
+
+body {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    background: #f1eae2;
+  /* height: 700px; */
+}
+html{
+  margin: 0px;
+  padding: 0px;
+  height: 100%;
+  font-family: 'Poppins', sans-serif;
+}
+.BBB{
+  width: 150px;
+  margin-top: 20px;
+}
+
+
+/* Menu et sous-menu -------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+
+  
+
+  /* Section hero ------------------------------------------------------------------------ */
+  
+  .hero {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    padding: 0 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .content {
+    text-align: center;
+  }
+  
+  .content h1 {
+    font-size: 160px;
+    color: #fff;
+    font-weight: 600;
+    transition: 0.5s;
+  }
+  
+  .content h1:hover {
+    -webkit-text-stroke: 2px white;
+    color: transparent;
+  }
+  
+  .content a {
+    text-decoration: none;
+    display: inline-block;
+    color: #fff;
+    font-size: 24px;
+    border: 2px solid white;
+    padding: 14px 50px;
+    margin-top: 20px;
+    transition: 0.5s;
+  }
+  
+  .content a:hover {
+    background: #fff;
+    color: #000;
+  }
+  
+  @keyframes typing {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+  
+  .slogan {
+    font-weight: bold;
+    margin-top: 50px;
+    color: #fff;
+    font-family: monospace;
+    font-size: 24px;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 2px solid black;
+    width: 100%;
+    animation: typing 3s steps(30, end), blink 0.6s step-end infinite;
+  }
+  .back-video {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+  }
+  
+  @media (min-aspect-ratio: 16/9) {
+    .back-video {
+      width: 100%;
+      height: auto;
+    }
+  }
+  
+  @media (max-aspect-ratio: 16/9) {
+    .back-video {
+      width: auto;
+      height: 100%;
+    }
+  }
+
+/* Scroll bar ------------------------------------------------------------------------ */
+
+::-webkit-scrollbar {
+  background-color: transparent;
+  width: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(#2a3ef0, #21ff28);
+  border-radius: 100px;
+}
+
+/* ------------------------------------------------------------------------ */
+
+
+
+/* Footer -------------------------------------------------------------------------------- */
+
+
+
+
+/* aperçu des services */
+
+.solutions{
+  color: #fff;
+  display: flex;
+  justify-content: space-around;
+  padding-top: 30px ;
+  
+}
+.services-container {
+  display: flex;
+  gap: 20px; /* Espace entre les cartes */
+  justify-content: center;
+  flex-wrap: wrap; /* Permet d'adapter les cartes sur plusieurs lignes */
+  margin-top: 40px;
+  margin-bottom: 100px;
+}
+.services-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-align: center;
+  padding: 20px;
+  width: 340px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.services-card:hover {
+  transform: translateY(10px); /* élévation au survol */
+  box-shadow: 0 6px 12px rgb(247, 245, 245);
+  transition: 0.8s;
+}
+.services-card:hover p {
+  color: #000;
+  font-weight: bold;
+}
+  
+#services-card1:hover {
+  background-color: #ad0606;
+}
+#services-card2:hover {
+  background-color: #fe49ab;
+}
+#services-card3:hover {
+  background-color: #b721ff;
+}
+#services-card4:hover {
+  background-color: #21d4fd;
+}
+
+.services-card h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.services-card img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+.services-card h3 {
+  font-size: 1.2rem;
+  color: #222;
+  margin-bottom: 10px;
+}
+
+.services-card p {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0;
+}
