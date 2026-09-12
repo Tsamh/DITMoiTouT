@@ -197,3 +197,12 @@ span{
   transform: translateY(-1px);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
+
+/* Le bouton Contacter remplace un lien : on lui redonne l'apparence du lien
+   d'origine et on marque clairement son état inactif. */
+.details .contact {
+  font: inherit;
+  border: none;
+  cursor: not-allowed;
+  opacity: 0.65;
+}
