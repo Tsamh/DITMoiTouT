@@ -77,10 +77,10 @@ Ce script est le test qui pilote tout le volet données. Il doit échouer mainte
 Créer `scripts/audit-donnees.mjs` :
 
 ```js
-// Audit des donnees sensibles.
-// Echoue si un motif interdit reapparait dans les sources publiees.
-// Les dossiers docs/ et scripts/ ne sont pas scannes : ils citent
-// volontairement ces motifs pour les documenter et les detecter.
+// Audit des données sensibles.
+// Échoue si un motif interdit réapparaît dans les sources publiées.
+// Les dossiers docs/ et scripts/ ne sont pas scannés : ils citent
+// volontairement ces motifs pour les documenter et les détecter.
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { join, extname, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -92,11 +92,11 @@ const EXTENSIONS = ['.vue', '.js', '.mjs', '.ts', '.css', '.html', '.json', '.md
 
 const MOTIFS = [
   {
-    nom: 'lien Slack de l espace de travail de l ecole',
+    nom: 'lien Slack de l\'espace de travail de l\'école',
     regex: /ditdakar\.slack\.com/i,
   },
   {
-    nom: 'numero de telephone senegalais',
+    nom: 'numéro de téléphone sénégalais',
     regex: /\+221[\s\d]{8,}/,
   },
   {
@@ -108,7 +108,7 @@ const MOTIFS = [
     regex: /wa\.me\//i,
   },
   {
-    nom: 'ancienne photo d enseignant reel',
+    nom: 'ancienne photo d\'enseignant réel',
     regex: /\b(dominique|dr_sylla|sarah|robert|adji|mrdieng|diop|ndiaye|awa|jeune|suzanne|deguene|marie|diallo|dieng|sam|sampil|incon|Nico-Robine|Yor-Forger)\.(webp|jpg|jpeg|png)\b/i,
   },
 ]
@@ -144,14 +144,14 @@ function scanner() {
 const occurrences = scanner()
 
 if (occurrences.length > 0) {
-  console.error(`Audit echoue : ${occurrences.length} occurrence(s) de donnees sensibles.\n`)
+  console.error(`Audit échoué : ${occurrences.length} occurrence(s) de données sensibles.\n`)
   for (const o of occurrences) {
     console.error(`  ${o.fichier}:${o.ligne}  ${o.motif}`)
   }
   process.exit(1)
 }
 
-console.log('Audit reussi : aucune donnee sensible detectee.')
+console.log('Audit réussi : aucune donnée sensible détectée.')
 ```
 
 - [ ] **Step 2 : Ajouter le script au `package.json`**
@@ -191,7 +191,7 @@ Si le script sort en code 0, il ne scanne pas les bons fichiers : vérifier que 
 Ajouter à la fin de `.gitignore` :
 
 ```
-# Variables d environnement
+# Variables d'environnement
 .env
 .env.*
 !.env.example
@@ -290,13 +290,13 @@ Créer `src/data/professeurs.js` :
 ```js
 // Fiches enseignants de la page Professeurs.
 // Les noms sont fictifs et les photos sont des portraits libres de droits :
-// aucune personne reelle n'est identifiable depuis ce depot public.
+// aucune personne réelle n'est identifiable depuis ce dépôt public.
 // Ce module reste du JavaScript pur, sans import Vue ni Vite, pour que le
 // script d'audit puisse l'importer directement sous Node.
 
 export const NIVEAUX = ['L1', 'L2', 'L3']
 
-// Les valeurs de nom et de matiere sont du texte affiche : elles portent
+// Les valeurs de nom et de matière sont du texte affiché : elles portent
 // leurs accents, contrairement aux identifiants de code.
 export const professeurs = [
   { id: 'l1-01', nom: 'M. Amadou Ba', matiere: ['Méthodologie de', 'rédaction de rapport'], photo: 'p01.jpg', niveau: 'L1' },
@@ -349,7 +349,7 @@ Remplacer intégralement le contenu de `src/views/Professeurs.vue` par :
     <div class=".contain">
       <button class="container">
         {{ niveau }}
-        <!-- Ancre id et non name : name est obsolete et introuvable par querySelector,
+        <!-- Ancre id et non name : name est obsolète et introuvable par querySelector,
              donc le scrollBehavior du routeur ne saurait pas la cibler. -->
         <a :id="niveau.toLowerCase()" :class="ancre(index)"></a>
       </button>
@@ -364,14 +364,14 @@ Remplacer intégralement le contenu de `src/views/Professeurs.vue` par :
           <span v-for="(ligne, i) in prof.matiere" :key="i">{{ ligne }}</span>
           <h1>{{ prof.nom }}</h1>
           <!-- Bouton sans destination : les anciens liens pointaient vers de vrais
-               identifiants de membres Slack, qui ont ete retires. -->
+               identifiants de membres Slack, qui ont été retirés. -->
           <button type="button" class="contact" disabled>Contacter</button>
         </article>
       </section>
 
       <section class="card" v-if="niveau === 'L3'">
         <section class="imgBox">
-          <img class="people" :src="photoUrl('recrutement.jpg')" alt="Poste a pourvoir" />
+          <img class="people" :src="photoUrl('recrutement.jpg')" alt="Poste à pourvoir" />
         </section>
         <article class="details">
           <span>Ceci pourrait être vous !</span>
@@ -386,7 +386,7 @@ Remplacer intégralement le contenu de `src/views/Professeurs.vue` par :
 <script setup>
 import { NIVEAUX, parNiveau } from '@/data/professeurs'
 
-// import.meta.glob resout les images a la construction. Le module de donnees
+// import.meta.glob résout les images à la construction. Le module de données
 // ne porte que des noms de fichiers, ce qui le garde importable par Node.
 const images = import.meta.glob('../assets/images/professeurs/*.{jpg,jpeg,png,webp}', {
   eager: true,
@@ -412,8 +412,8 @@ function ancre(index) {
 Les fiches stylaient un `<a>`, pas un `<button>`. Ajouter à la fin de `src/assets/css/professeurs.css` :
 
 ```css
-/* Le bouton Contacter remplace un lien : on lui redonne l apparence du lien
-   d origine et on marque clairement son etat inactif. */
+/* Le bouton Contacter remplace un lien : on lui redonne l'apparence du lien
+   d'origine et on marque clairement son état inactif. */
 .details .contact {
   font: inherit;
   border: none;
@@ -442,14 +442,14 @@ function verifierDonneesProfesseurs() {
     for (const champ of champs) {
       if (prof[champ] === undefined) problemes.push(`fiche ${prof.id ?? '?'} : champ ${champ} manquant`)
     }
-    if (!Array.isArray(prof.matiere)) problemes.push(`fiche ${prof.id} : matiere doit etre un tableau`)
+    if (!Array.isArray(prof.matiere)) problemes.push(`fiche ${prof.id} : matière doit être un tableau`)
     if (!NIVEAUX.includes(prof.niveau)) problemes.push(`fiche ${prof.id} : niveau ${prof.niveau} inconnu`)
-    if (prof.photo?.includes('/')) problemes.push(`fiche ${prof.id} : photo doit etre un nom de fichier nu`)
+    if (prof.photo?.includes('/')) problemes.push(`fiche ${prof.id} : photo doit être un nom de fichier nu`)
     if (identifiants.has(prof.id)) problemes.push(`identifiant ${prof.id} en double`)
     identifiants.add(prof.id)
     for (const [cle, valeur] of Object.entries(prof)) {
       if (typeof valeur === 'string' && /slack|https?:/i.test(valeur)) {
-        problemes.push(`fiche ${prof.id} : le champ ${cle} contient un lien, ce qui n est plus attendu`)
+        problemes.push(`fiche ${prof.id} : le champ ${cle} contient un lien, ce qui n'est plus attendu`)
       }
     }
   }
@@ -464,17 +464,17 @@ const occurrences = scanner()
 const problemes = verifierDonneesProfesseurs()
 
 if (occurrences.length > 0 || problemes.length > 0) {
-  console.error(`Audit echoue : ${occurrences.length} occurrence(s) et ${problemes.length} probleme(s) de donnees.\n`)
+  console.error(`Audit échoué : ${occurrences.length} occurrence(s) et ${problemes.length} problème(s) de données.\n`)
   for (const o of occurrences) {
     console.error(`  ${o.fichier}:${o.ligne}  ${o.motif}`)
   }
   for (const p of problemes) {
-    console.error(`  donnees professeurs : ${p}`)
+    console.error(`  données professeurs : ${p}`)
   }
   process.exit(1)
 }
 
-console.log('Audit reussi : aucune donnee sensible detectee, donnees professeurs conformes.')
+console.log('Audit réussi : aucune donnée sensible détectée, données professeurs conformes.')
 ```
 
 - [ ] **Step 5 : Lancer l'audit**
@@ -606,12 +606,12 @@ git commit -m "Remplacer les photos des enseignants par des portraits libres de 
 Créer `src/utils/password.js` :
 
 ```js
-// Gestion des comptes cote navigateur.
+// Gestion des comptes côté navigateur.
 //
-// A lire avant de faire confiance a ce fichier : le site est statique, sans
-// serveur, donc tout ce code s'execute chez le visiteur et il est public.
-// SHA-256 n'est pas une fonction de derivation de mot de passe et n'offre
-// aucune protection contre un attaquant determine. Ce que ce module garantit,
+// À lire avant de faire confiance à ce fichier : le site est statique, sans
+// serveur, donc tout ce code s'exécute chez le visiteur et il est public.
+// SHA-256 n'est pas une fonction de dérivation de mot de passe et n'offre
+// aucune protection contre un attaquant déterminé. Ce que ce module garantit,
 // et c'est son seul objectif, c'est qu'aucun mot de passe en clair ne subsiste
 // dans un stockage que toute autre page de l'origine peut lire.
 
@@ -623,13 +623,13 @@ function enHexa(octets) {
 }
 
 // Supprime l'ancien stockage, qui contenait les mots de passe en clair.
-// Appele au demarrage de l'application, pour nettoyer aussi les navigateurs
-// des visiteurs qui ont utilise la version precedente du site.
+// Appelé au démarrage de l'application, pour nettoyer aussi les navigateurs
+// des visiteurs qui ont utilisé la version précédente du site.
 export function purgerAncienStockage() {
   try {
     localStorage.removeItem(ANCIENNE_CLE)
   } catch {
-    // Stockage indisponible (navigation privee stricte) : rien a purger.
+    // Stockage indisponible (navigation privée stricte) : rien à purger.
   }
 }
 
@@ -701,7 +701,7 @@ export default {
       const compte = utilisateurs.find((u) => u.email === this.email)
 
       // Message identique que le compte soit introuvable ou le mot de passe
-      // faux : sinon le formulaire revelerait quelles adresses sont inscrites.
+      // faux : sinon le formulaire révélerait quelles adresses sont inscrites.
       if (!compte) {
         this.erreur = 'Identifiants incorrects.'
         return
@@ -713,7 +713,7 @@ export default {
         return
       }
 
-      // La session n'est ecrite qu'apres verification reussie.
+      // La session n'est écrite qu'après vérification réussie.
       localStorage.setItem('connectedUser', JSON.stringify({ email: compte.email, nom: compte.nom }))
       this.$router.push('/')
     },
@@ -780,7 +780,7 @@ export default {
         return
       }
 
-      // Le mot de passe lui-meme n'est jamais ecrit : seule son empreinte l'est.
+      // Le mot de passe lui-même n'est jamais écrit : seule son empreinte l'est.
       const sel = genererSel()
       const empreinte = await calculerEmpreinte(sel, this.password)
 
@@ -871,7 +871,7 @@ Expected: code 0, `Audit reussi`. Si ce n'est pas le cas, ne pas continuer : une
 Dans `.github/workflows/pages.yml`, insérer cette étape entre `Installer les dependances` et `Construire le site` :
 
 ```yaml
-      - name: Verifier l absence de donnees sensibles
+      - name: Vérifier l'absence de données sensibles
         run: npm run audit
 ```
 
@@ -916,7 +916,7 @@ Créer `src/assets/css/motion.css` :
 
 ```css
 /* Toutes les valeurs de mouvement du site sont ici.
-   Regler l'animation de l'ensemble revient a changer ces cinq variables. */
+   Régler l'animation de l'ensemble revient à changer ces cinq variables. */
 :root {
   --motion-courbe: cubic-bezier(0.22, 0.61, 0.36, 1);
   --motion-duree-revele: 700ms;
@@ -925,9 +925,9 @@ Créer `src/assets/css/motion.css` :
   --motion-duree-entree: 420ms;
 }
 
-/* Revelation au defilement.
-   L'etat masque n'est jamais ecrit dans le HTML : c'est la directive qui pose
-   data-reveal au montage. Sans JavaScript, la page reste entierement lisible. */
+/* Révélation au défilement.
+   L'état masqué n'est jamais écrit dans le HTML : c'est la directive qui pose
+   data-reveal au montage. Sans JavaScript, la page reste entièrement lisible. */
 [data-reveal] {
   opacity: 0;
   transform: translateY(var(--motion-distance-revele));
@@ -937,25 +937,25 @@ Créer `src/assets/css/motion.css` :
   transition-delay: var(--reveal-delay, 0ms);
 }
 
-/* Deux classes distinctes, et non un selecteur descendant unique.
-   est-revele marque un element qui se revele lui-meme, est-revele-groupe un
-   conteneur qui revele ses enfants directs. Les confondre ferait apparaitre
-   d'un coup tout bloc imbrique dans un autre bloc revele, par exemple
-   final-cta qui vit a l'interieur de audience sur la page d'accueil. */
+/* Deux classes distinctes, et non un sélecteur descendant unique.
+   est-revele marque un élément qui se révèle lui-même, est-revele-groupe un
+   conteneur qui révèle ses enfants directs. Les confondre ferait apparaître
+   d'un coup tout bloc imbriqué dans un autre bloc révélé, par exemple
+   final-cta qui vit à l'intérieur de audience sur la page d'accueil. */
 [data-reveal].est-revele,
 .est-revele-groupe > [data-reveal] {
   opacity: 1;
   transform: none;
 }
 
-/* Fondu seul, pour les blocs pleine hauteur ou une translation laisserait
-   apparaitre une bande de fond. */
+/* Fondu seul, pour les blocs pleine hauteur où une translation laisserait
+   apparaître une bande de fond. */
 [data-reveal].fondu {
   transform: none;
 }
 
 /* Transition entre les pages.
-   Sortie breve et entree posee : l'ancien contenu libere la place sans se
+   Sortie brève et entrée posée : l'ancien contenu libère la place sans se
    faire attendre, le nouveau s'installe. */
 .page-leave-active {
   transition:
@@ -999,19 +999,19 @@ Créer `src/assets/css/motion.css` :
 Créer `src/directives/reveal.js` :
 
 ```js
-// Revelation des blocs au defilement.
+// Révélation des blocs au défilement.
 //
-// Un seul IntersectionObserver sert toute l'application. Chaque element
-// observe se desabonne des qu'il a ete revele : la revelation est a sens
-// unique, un bloc deja apparu ne redisparait pas si l'on remonte.
+// Un seul IntersectionObserver sert toute l'application. Chaque élément
+// observé se désabonne dès qu'il a été révélé : la révélation est à sens
+// unique, un bloc déjà apparu ne redisparaît pas si l'on remonte.
 
 const ATTRIBUT = 'data-reveal'
-// Deux classes : l'element se revele lui-meme, ou il revele ses enfants.
+// Deux classes : l'élément se révèle lui-même, ou il révèle ses enfants.
 const CLASSE_REVELE = 'est-revele'
 const CLASSE_REVELE_GROUPE = 'est-revele-groupe'
 const DECALAGE_MS = 90
-// Au dela de six enfants le decalage repart a zero : sinon la quinzieme carte
-// attendrait une seconde et demie et l'effet deviendrait penible.
+// Au-delà de six enfants le décalage repart à zéro : sinon la quinzième carte
+// attendrait une seconde et demie et l'effet deviendrait pénible.
 const MAX_DECALAGES = 6
 
 let observateur = null
@@ -1025,17 +1025,17 @@ function obtenirObservateur() {
   if (observateur) return observateur
 
   observateur = new IntersectionObserver(
-    (entrees) => {
-      for (const entree of entrees) {
-        if (!entree.isIntersecting) continue
-        const groupe = entree.target.dataset.revealGroupe === 'oui'
-        entree.target.classList.add(groupe ? CLASSE_REVELE_GROUPE : CLASSE_REVELE)
-        observateur.unobserve(entree.target)
+    (entrées) => {
+      for (const entrée of entrées) {
+        if (!entrée.isIntersecting) continue
+        const groupe = entrée.target.dataset.revealGroupe === 'oui'
+        entrée.target.classList.add(groupe ? CLASSE_REVELE_GROUPE : CLASSE_REVELE)
+        observateur.unobserve(entrée.target)
       }
     },
     {
-      // Un bloc s'anime quand il a franchi le bas de l'ecran d'environ un
-      // huitieme de la hauteur de fenetre.
+      // Un bloc s'anime quand il a franchi le bas de l'écran d'environ un
+      // huitième de la hauteur de fenêtre.
       threshold: 0.15,
       rootMargin: '0px 0px -12% 0px',
     },
@@ -1047,12 +1047,12 @@ function obtenirObservateur() {
 export const reveal = {
   mounted(el, binding) {
     // Deux sorties sans effet, qui laissent le contenu visible : c'est le
-    // comportement degrade voulu.
+    // comportement dégradé voulu.
     if (mouvementReduit()) return
     if (typeof IntersectionObserver === 'undefined') return
 
     if (binding.modifiers.stagger) {
-      // Le conteneur n'est pas masque : il sert seulement de declencheur.
+      // Le conteneur n'est pas masqué : il sert seulement de déclencheur.
       el.dataset.revealGroupe = 'oui'
       Array.from(el.children).forEach((enfant, index) => {
         enfant.setAttribute(ATTRIBUT, '')
@@ -1116,7 +1116,7 @@ import { purgerAncienStockage } from './utils/password'
 // define "lord-icon" custom element with default properties
 defineElement(lottie.loadAnimation);
 
-// Efface les mots de passe en clair laisses par la version precedente du site.
+// Efface les mots de passe en clair laissés par la version précédente du site.
 purgerAncienStockage()
 
 createApp(App)
@@ -1160,15 +1160,15 @@ git commit -m "Ajouter la feuille de mouvement et la directive de revelation au 
 Créer `src/router/transition-gate.js` :
 
 ```js
-// Le routeur declenche le defilement des la navigation confirmee, c'est a dire
-// pendant que l'ancienne page est encore visible en train de disparaitre. Sans
+// Le routeur déclenche le défilement dès la navigation confirmée, c'est-à-dire
+// pendant que l'ancienne page est encore visible en train de disparaître. Sans
 // ce portail, la page sortante saute vers le haut avant de s'effacer.
 //
 // App.vue signale la fin de la transition de sortie, le scrollBehavior l'attend,
-// et le defilement se produit donc dans l'intervalle ou le DOM est vide.
+// et le défilement se produit donc dans l'intervalle où le DOM est vide.
 
-// Securite : une transition avortee ou jamais declenchee ne doit jamais
-// empecher le defilement.
+// Sécurité : une transition avortée ou jamais déclenchée ne doit jamais
+// empêcher le défilement.
 const SECURITE_MS = 600
 
 let resoudreEnCours = null
@@ -1210,12 +1210,12 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
   async scrollBehavior(to, from, savedPosition) {
-    // savedPosition n'est renseigne que sur precedent et suivant : on restaure
+    // savedPosition n'est renseigné que sur précédent et suivant : on restaure
     // alors exactement ce que l'utilisateur avait sous les yeux.
     const cible = savedPosition ?? (to.hash ? { el: to.hash } : { top: 0 })
 
     // Premier chargement : aucune transition de sortie ne va se produire,
-    // attendre bloquerait le defilement pendant la duree de securite.
+    // attendre bloquerait le défilement pendant la durée de sécurité.
     if (from.matched.length === 0) return cible
 
     await attendreSortie()
@@ -1237,13 +1237,13 @@ Remplacer intégralement `src/App.vue` par :
     <main>
       <router-view v-slot="{ Component, route }">
         <Transition name="page" mode="out-in" @after-leave="signalerSortieTerminee">
-          <!-- Ce div n'est pas decoratif, il est indispensable.
-               <Transition> ne sait animer qu'un seul element racine, or
+          <!-- Ce div n'est pas décoratif, il est indispensable.
+               <Transition> ne sait animer qu'un seul élément racine, or
                Revision.vue, Professeurs.vue et Play.vue rendent plusieurs
-               noeuds racine. Sans ce conteneur, Vue avertirait que la racine
-               ne peut pas etre animee et la transition ne jouerait pas sur
-               ces trois pages. Le conteneur garantit un element unique quelle
-               que soit la vue, aujourd'hui comme pour celles a venir. -->
+               nœuds racine. Sans ce conteneur, Vue avertirait que la racine
+               ne peut pas être animée et la transition ne jouerait pas sur
+               ces trois pages. Le conteneur garantit un élément unique quelle
+               que soit la vue, aujourd'hui comme pour celles à venir. -->
           <div :key="route.path" class="page-racine">
             <component :is="Component" />
           </div>
@@ -1524,7 +1524,7 @@ Expected: aucun défilement horizontal, et les animations restent fluides.
 
 Run: `npm run audit && npm run build`
 
-Expected: `Audit reussi`, puis `built in …`.
+Expected: `Audit réussi`, puis `built in …`.
 
 - [ ] **Step 8 : Commit si une correction a été nécessaire**
 
@@ -1647,7 +1647,7 @@ git log --oneline | head -12
 npm run audit && npm run build
 ```
 
-Expected: l'historique est présent avec les mêmes messages de commit, puis `Audit reussi` et `built in …`. La réécriture ne doit avoir changé aucun fichier de l'état courant.
+Expected: l'historique est présent avec les mêmes messages de commit, puis `Audit réussi` et `built in …`. La réécriture ne doit avoir changé aucun fichier de l'état courant.
 
 - [ ] **Step 8 : Remettre le dépôt distant**
 
