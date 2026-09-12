@@ -513,7 +513,7 @@ Ne pas lancer `npm run build` à cette étape : les fichiers `p01.jpg` à `p14.j
 ### Task 4 : Remplacement des photos
 
 **Files:**
-- Delete: les 19 fichiers de `src/assets/images/professeurs/`
+- Delete: les 20 fichiers de `src/assets/images/professeurs/`
 - Create: `src/assets/images/professeurs/p01.jpg` à `p14.jpg` et `recrutement.jpg`
 
 **Interfaces:**
