@@ -8,15 +8,13 @@
         </RouterLink>
         <ul class="media-icons">
           <li><a href="https://www.youtube.com/@DITSenegal"><i class="fa-brands fa-youtube"></i></a></li>
-          <li><a href="https://www.instagram.com/ditdakar?igsh=MWx6cjk3bTN6MW03eQ=="><i class="fa-brands fa-instagram"></i></a></li>
-          <li><a href="https://x.com/DITSenegal?t=Waj8sGkLaoezfnxYPNtfZg&s=09"><i class="fa-brands fa-twitter"></i></a></li>
+          <li><a href="https://www.instagram.com/ditdakar"><i class="fa-brands fa-instagram"></i></a></li>
+          <li><a href="https://x.com/DITSenegal"><i class="fa-brands fa-twitter"></i></a></li>
           <li><a href="https://www.facebook.com/share/1F1kEupDxK/"><i class="fa-brands fa-facebook"></i></a></li>
-          <li><a href="https://www.tiktok.com/@ditdakar?_t=ZM-8yfDRY63bQG&_r=1"><i class="fa-brands fa-tiktok"></i></a></li>
-          <li><a href="#"><i class="fa-brands fa-linkedin"></i></a></li>
+          <li><a href="https://www.tiktok.com/@ditdakar"><i class="fa-brands fa-tiktok"></i></a></li>
+          <li><a href="https://www.linkedin.com/in/samba-hama-traore-925309351"><i class="fa-brands fa-linkedin"></i></a></li>
           <li><a href="https://discord.com/invite/K9MHYABb"><i class="fa-brands fa-discord"></i></a></li>
           <li><a href="https://github.com/Tsamh"><i class="fa-brands fa-github"></i></a></li>
-          <li><a href="#"><i class="fa-brands fa-snapchat"></i></a></li>
-          <li><a href="#"><i class="fa-brands fa-whatsapp"></i></a></li>
         </ul>
       </div>
 
@@ -33,9 +31,7 @@
           <li><a href="#">Coordonnées</a>
             <ul>
               <br />
-              <li>Tel1 : [numero retire]</li>
-              <li>Tel2 : [numero retire]</li>
-              <li>Fixe : [numero retire]</li>
+              <li>Contact via le formulaire ci-contre</li>
             </ul>
           </li>
         </ul>
