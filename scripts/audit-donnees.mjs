@@ -1,7 +1,7 @@
-// Audit des donnees sensibles.
-// Echoue si un motif interdit reapparait dans les sources publiees.
-// Les dossiers docs/ et scripts/ ne sont pas scannes : ils citent
-// volontairement ces motifs pour les documenter et les detecter.
+// Audit des données sensibles.
+// Échoue si un motif interdit réapparaît dans les sources publiées.
+// Les dossiers docs/ et scripts/ ne sont pas scannés : ils citent
+// volontairement ces motifs pour les documenter et les détecter.
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { join, extname, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -13,11 +13,11 @@ const EXTENSIONS = ['.vue', '.js', '.mjs', '.ts', '.css', '.html', '.json', '.md
 
 const MOTIFS = [
   {
-    nom: 'lien Slack de l espace de travail de l ecole',
+    nom: 'lien Slack de l\'espace de travail de l\'école',
     regex: /ditdakar\.slack\.com/i,
   },
   {
-    nom: 'numero de telephone senegalais',
+    nom: 'numéro de téléphone sénégalais',
     regex: /\+221[\s\d]{8,}/,
   },
   {
@@ -29,7 +29,7 @@ const MOTIFS = [
     regex: /wa\.me\//i,
   },
   {
-    nom: 'ancienne photo d enseignant reel',
+    nom: 'ancienne photo d\'enseignant réel',
     regex: /\b(dominique|dr_sylla|sarah|robert|adji|mrdieng|diop|ndiaye|awa|jeune|suzanne|deguene|marie|diallo|dieng|sam|sampil|incon|Nico-Robine|Yor-Forger)\.(webp|jpg|jpeg|png)\b/i,
   },
 ]
@@ -65,11 +65,11 @@ function scanner() {
 const occurrences = scanner()
 
 if (occurrences.length > 0) {
-  console.error(`Audit echoue : ${occurrences.length} occurrence(s) de donnees sensibles.\n`)
+  console.error(`Audit échoué : ${occurrences.length} occurrence(s) de données sensibles.\n`)
   for (const o of occurrences) {
     console.error(`  ${o.fichier}:${o.ligne}  ${o.motif}`)
   }
   process.exit(1)
 }
 
-console.log('Audit reussi : aucune donnee sensible detectee.')
+console.log('Audit réussi : aucune donnée sensible détectée.')

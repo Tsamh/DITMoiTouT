@@ -29,7 +29,7 @@ coverage
 
 *.tsbuildinfo
 
-# Variables d environnement
+# Variables d'environnement
 .env
 .env.*
 !.env.example
