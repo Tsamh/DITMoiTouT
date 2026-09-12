@@ -522,15 +522,13 @@ Ne pas lancer `npm run build` à cette étape : les fichiers `p01.jpg` à `p14.j
 
 - [ ] **Step 1 : Télécharger les portraits de remplacement**
 
-Les portraits viennent de `randomuser.me`, qui fournit un jeu de photos libres d'usage. Depuis la racine du projet :
+Les portraits viennent de `i.pravatar.cc`, qui fournit un jeu de photos libres d'usage. `randomuser.me` ne sert des portraits qu'en 128 par 128 pixels, ce qui est trop petit pour une carte qui affiche l'image à environ 460 pixels. Depuis la racine du projet :
 
 ```bash
 cd src/assets/images/professeurs
-for i in 01 02 03 04 05 06 07; do
-  curl -fsSL "https://randomuser.me/api/portraits/men/${i#0}.jpg" -o "p$i.jpg"
-done
-for i in 08 09 10 11 12 13 14; do
-  curl -fsSL "https://randomuser.me/api/portraits/women/${i#0}.jpg" -o "p$i.jpg"
+for n in 1 2 3 4 5 6 7 8 9 10 11 12 13 14; do
+  printf -v f "p%02d.jpg" "$n"
+  curl -fsSL "https://i.pravatar.cc/600?img=$n" -o "$f"
 done
 curl -fsSL "https://randomuser.me/api/portraits/lego/1.jpg" -o "recrutement.jpg"
 cd -
