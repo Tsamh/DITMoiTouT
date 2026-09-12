@@ -412,6 +412,11 @@ function ancre(index) {
 Les fiches stylaient un `<a>`, pas un `<button>`. Ajouter à la fin de `src/assets/css/professeurs.css` :
 
 ```css
+/* Espacement entre les niveaux : remplace les <br><br> du template d'origine. */
+.team {
+  margin-bottom: 3rem;
+}
+
 /* Le bouton Contacter remplace un lien : on lui redonne l'apparence du lien
    d'origine et on marque clairement son état inactif. */
 .details .contact {

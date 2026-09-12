@@ -67,6 +67,8 @@ h2 {
   display: flex;
   justify-content: space-around;
   width: 100%;
+  margin-bottom: 3rem;
+  /* Remplace les <br><br> qui separaient les niveaux dans le template d'origine. */
 }
 .encre{
   position: absolute;
