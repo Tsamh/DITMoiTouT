@@ -26,35 +26,49 @@
         <button type="submit">Se connecter</button>
       </form>
 
+      <p v-if="erreur" class="message-erreur" role="alert">{{ erreur }}</p>
+
       <router-link to="/register">Pas encore de compte ? Créez-en un</router-link>
     </div>
   </div>
 </template>
 <script>
+import { calculerEmpreinte, lireUtilisateurs } from '@/utils/password'
+
 export default {
   data() {
     return {
       email: '',
       password: '',
-    };
+      erreur: '',
+    }
   },
   methods: {
-    login() {
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
-      localStorage.setItem('connectedUser', JSON.stringify({ email: this.email }));
-this.$router.push('/');
+    async login() {
+      this.erreur = ''
 
-      const user = users.find(u => u.email === this.email && u.password === this.password);
-      if (user) {
-        alert("Connexion réussie !");
-        this.$router.push('/');
-      } else {
-        alert("Identifiants incorrects.");
+      const utilisateurs = lireUtilisateurs()
+      const compte = utilisateurs.find((u) => u.email === this.email)
+
+      // Message identique que le compte soit introuvable ou le mot de passe
+      // faux : sinon le formulaire révélerait quelles adresses sont inscrites.
+      if (!compte) {
+        this.erreur = 'Identifiants incorrects.'
+        return
       }
+
+      const empreinte = await calculerEmpreinte(compte.sel, this.password)
+      if (empreinte !== compte.empreinte) {
+        this.erreur = 'Identifiants incorrects.'
+        return
+      }
+
+      // La session n'est écrite qu'après vérification réussie.
+      localStorage.setItem('connectedUser', JSON.stringify({ email: compte.email, nom: compte.nom }))
+      this.$router.push('/')
     },
   },
-};
-
+}
 </script>
 <style scoped>
 .login-page {
@@ -130,6 +144,12 @@ button[type="submit"] {
 button[type="submit"]:hover {
   background: #3498db;
   transform: translateY(-2px);
+}
+
+.message-erreur {
+  margin-top: 1rem;
+  color: #c0392b;
+  font-size: 0.95rem;
 }
 
 a {

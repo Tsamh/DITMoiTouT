@@ -9,6 +9,8 @@
         <input v-model="password" type="password" placeholder="Créez un mot de passe" required />
         <button type="submit">S'inscrire</button>
       </form>
+
+      <p v-if="erreur" class="message-erreur" role="alert">{{ erreur }}</p>
       <router-link to="/connexion" class="login-link">
         Déjà un compte ? <strong>Se connecter</strong>
       </router-link>
@@ -17,6 +19,8 @@
 </template>
 
 <script>
+import { calculerEmpreinte, ecrireUtilisateurs, genererSel, lireUtilisateurs } from '@/utils/password'
+
 export default {
   data() {
     return {
@@ -24,26 +28,36 @@ export default {
       classe: '',
       email: '',
       password: '',
-    };
+      erreur: '',
+    }
   },
   methods: {
-    register() {
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
-      const exists = users.find(user => user.email === this.email);
+    async register() {
+      this.erreur = ''
 
-      if (exists) {
-        alert("Cet utilisateur existe déjà.");
-        return;
+      const utilisateurs = lireUtilisateurs()
+      if (utilisateurs.some((u) => u.email === this.email)) {
+        this.erreur = 'Cet utilisateur existe déjà.'
+        return
       }
 
-      users.push({ email: this.email, password: this.password });
-      localStorage.setItem('users', JSON.stringify(users));
+      // Le mot de passe lui-même n'est jamais écrit : seule son empreinte l'est.
+      const sel = genererSel()
+      const empreinte = await calculerEmpreinte(sel, this.password)
 
-      alert("Compte créé avec succès !");
-      this.$router.push('/connexion');
+      utilisateurs.push({
+        nom: this.name,
+        classe: this.classe,
+        email: this.email,
+        sel,
+        empreinte,
+      })
+      ecrireUtilisateurs(utilisateurs)
+
+      this.$router.push('/connexion')
     },
   },
-};
+}
 </script>
 
 <style scoped src="../assets/css/registerPage.css">
