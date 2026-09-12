@@ -33,3 +33,6 @@ coverage
 .env
 .env.*
 !.env.example
+
+# Dossier de travail local
+.travail-local/
