@@ -409,14 +409,23 @@ function ancre(index) {
 
 - [ ] **Step 3 : Donner au bouton Contacter l'apparence de l'ancien lien**
 
-Les fiches stylaient un `<a>`, pas un `<button>`. Ajouter à la fin de `src/assets/css/professeurs.css` :
+Deux retouches dans `src/assets/css/professeurs.css`.
+
+D'abord l'espacement entre niveaux. Le template d'origine séparait les blocs L1, L2 et L3 par des `<br><br>`, que la boucle supprime. Aucune autre règle ne fournit ce blanc, donc les trois niveaux se colleraient. Ajouter une marge à la règle `.team` **existante** (vers la ligne 66), sans créer un second sélecteur `.team` ailleurs dans le fichier :
 
 ```css
-/* Espacement entre les niveaux : remplace les <br><br> du template d'origine. */
-.team {
+.team{
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
   margin-bottom: 3rem;
+  /* Remplace les <br><br> qui séparaient les niveaux dans le template d'origine. */
 }
+```
 
+Ensuite le bouton Contacter. Les fiches stylaient un `<a>`, pas un `<button>`. Ajouter à la fin du même fichier :
+
+```css
 /* Le bouton Contacter remplace un lien : on lui redonne l'apparence du lien
    d'origine et on marque clairement son état inactif. */
 .details .contact {
