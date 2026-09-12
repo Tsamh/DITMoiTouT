@@ -28,3 +28,8 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+
+# Variables d environnement
+.env
+.env.*
+!.env.example
