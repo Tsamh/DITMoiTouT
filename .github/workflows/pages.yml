@@ -28,6 +28,9 @@ jobs:
       - name: Installer les dependances
         run: npm ci
 
+      - name: Verifier l absence de donnees sensibles
+        run: npm run audit
+
       - name: Construire le site
         run: npm run build
 
