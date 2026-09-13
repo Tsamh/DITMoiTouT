@@ -4,53 +4,46 @@
 //
 // App.vue signale la fin de la transition de sortie, le scrollBehavior l'attend,
 // et le défilement se produit donc dans l'intervalle où le DOM est vide.
-
-// Sécurité : une transition avortée ou jamais déclenchée ne doit jamais
-// empêcher le défilement.
+//
+// Chaque attente porte l'identité du chemin qu'elle quitte : c'est ce chemin,
+// et non un simple ordre d'arrivée, qui permet de relier un signal de sortie
+// à l'attente qui lui correspond, même quand plusieurs navigations
+// s'enchaînent ou se chevauchent rapidement. Un signal sans attente
+// correspondante est donc ignoré sans effet de bord sur une autre attente.
+//
+// Sécurité : une transition avortée, annulée ou jamais déclenchée ne doit
+// jamais empêcher le défilement. Chaque attente possède ainsi son propre
+// délai de secours, qui la résout et la retire de la liste si aucun signal
+// n'est jamais arrivé pour elle.
 const SECURITE_MS = 600
 
-let resoudreEnCours = null
+const attentesEnCours = []
 
-// Un signal peut arriver en retard : la sécurité a déjà résolu l'attente A,
-// une attente B a commencé, puis le signal destiné à A arrive et trouverait B
-// dans la case partagée. Ce drapeau retient qu'un signal est encore dû pour
-// une attente déjà résolue par la sécurité, afin de le consommer sans agir
-// sur l'attente suivante.
-let signalEnRetardAttendu = false
-
-export function attendreSortie() {
+export function attendreSortie(cle) {
   return new Promise((resoudre) => {
-    resoudreEnCours = resoudre
+    const entree = { cle, resoudre }
+    attentesEnCours.push(entree)
 
     setTimeout(() => {
-      if (resoudreEnCours === resoudre) {
-        resoudreEnCours = null
-        signalEnRetardAttendu = true
+      const index = attentesEnCours.indexOf(entree)
+      if (index !== -1) {
+        attentesEnCours.splice(index, 1)
       }
 
-      // Une promesse doit toujours se résoudre, même quand sa navigation a
-      // été remplacée par une attente suivante : sinon cette attente-ci reste
-      // bloquée pour toujours, ce qui viole le contrat de ce module.
+      // Une promesse doit toujours se résoudre, même quand aucun signal n'est
+      // jamais arrivé pour elle : sinon cette attente-ci reste bloquée pour
+      // toujours, ce qui viole le contrat de ce module.
       resoudre()
     }, SECURITE_MS)
   })
 }
 
-export function signalerSortieTerminee() {
-  // Ce signal est celui, en retard, d'une attente déjà résolue par la
-  // sécurité : on l'absorbe sans toucher à l'attente en cours.
-  // Limite acceptée : si la transition en retard n'envoie finalement jamais
-  // son signal, ce drapeau reste levé et avale le prochain signal légitime,
-  // qui retombera alors sur sa propre sécurité de 600 ms, un défilement plus
-  // lent mais jamais désynchronisé.
-  if (signalEnRetardAttendu) {
-    signalEnRetardAttendu = false
-    return
-  }
+export function signalerSortieTerminee(cle) {
+  if (cle === undefined || cle === null) return
 
-  if (!resoudreEnCours) return
+  const index = attentesEnCours.findIndex((entree) => entree.cle === cle)
+  if (index === -1) return
 
-  const resoudre = resoudreEnCours
-  resoudreEnCours = null
-  resoudre()
+  const [entree] = attentesEnCours.splice(index, 1)
+  entree.resoudre()
 }

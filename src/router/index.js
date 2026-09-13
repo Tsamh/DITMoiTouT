@@ -39,7 +39,7 @@ const router = createRouter({
     // 600 ms. Aucun lien du site n'est dans ce cas aujourd'hui : les ancres de
     // la page Professeurs sont des <a href="#l1"> natifs, qui ne passent pas
     // par le routeur.
-    await attendreSortie()
+    await attendreSortie(from.path)
     return cible
   },
 })

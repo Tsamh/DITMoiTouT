@@ -66,14 +66,14 @@ Vue Router déclenche le défilement dès la navigation confirmée, c'est à dir
 
 `src/router/transition-gate.js` expose deux fonctions :
 
-- `signalerSortieTerminee()` : appelée par `App.vue` dans le hook `@after-leave` du `<Transition>`.
-- `attendreSortie()` : renvoie une promesse résolue par l'appel précédent.
+- `signalerSortieTerminee(cle)` : appelée par `App.vue` dans le hook `@after-leave` du `<Transition>`, avec le chemin de la page qui vient de disparaître.
+- `attendreSortie(cle)` : renvoie une promesse pour le chemin quitté, résolue par le `signalerSortieTerminee` correspondant.
 
-Le `scrollBehavior` renvoie une promesse qui attend `attendreSortie()` avant de résoudre la cible de défilement. Le défilement se produit donc dans l'intervalle où le DOM est vide, et reste invisible. La promesse est bornée par une sécurité de 600 ms : une transition avortée, interrompue ou jamais déclenchée ne doit jamais empêcher le défilement.
+Le `scrollBehavior` renvoie une promesse qui attend `attendreSortie(from.path)` avant de résoudre la cible de défilement. Le défilement se produit donc dans l'intervalle où le DOM est vide, et reste invisible. Vue transmet l'élément sortant à `@after-leave` : `App.vue` porte ce chemin sur l'élément via `:data-route="route.path"` et le relit dans le hook, ce qui donne à chaque signal l'identité de la navigation à laquelle il appartient.
 
-Un signal peut aussi arriver en retard : si la sécurité résout déjà une attente avant que son signal n'arrive, ce signal tardif trouverait la navigation suivante en cours et la résoudrait instantanément, provoquant le saut visible que ce portail doit précisément éviter. Un drapeau retient qu'un signal reste dû à une attente déjà résolue par la sécurité et l'absorbe sans effet sur l'attente en cours ; si ce signal tardif n'arrive finalement jamais, le drapeau avale à sa place le prochain signal légitime, qui retombe alors sur sa propre sécurité de 600 ms, un défilement plus lent mais jamais désynchronisé.
+Chaque attente est conservée dans une liste avec le chemin qu'elle quitte et son résolveur, tant qu'elle n'est pas réglée. Un signal cherche dans cette liste la première attente dont le chemin correspond, la retire et la résout ; un signal sans attente correspondante est ignoré sans effet sur les autres. Chercher la première entrée plutôt que la dernière compte quand un même chemin est quitté deux fois avant que les deux attentes ne se règlent, ce qui arrive en cas d'allers-retours rapides : l'attente la plus ancienne est celle dont la transition s'est terminée en premier.
 
-Une navigation qui en remplace une autre avant que son attente ne se soit résolue ne laisse jamais celle-ci en suspens : l'attente abandonnée se résout tout de même via sa propre sécurité de 600 ms, seule sa comptabilité interne s'efface au profit de l'attente suivante.
+Chaque attente porte sa propre sécurité de 600 ms, qui la retire de la liste et la résout si aucun signal ne correspond jamais : une transition avortée, interrompue ou jamais déclenchée ne doit jamais empêcher le défilement. Comme l'identité du chemin distingue les attentes entre elles, un signal en retard pour une attente déjà résolue par sa sécurité ne trouve plus aucune entrée à laquelle se raccrocher et n'a donc aucune prise sur une navigation suivante.
 
 ### La transition
 
