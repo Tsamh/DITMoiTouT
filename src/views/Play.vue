@@ -18,7 +18,7 @@
     <h1>&nbsp</h1>
     <h1>&nbsp</h1>
     <h1>&nbsp</h1>
-    <div>
+    <div v-reveal>
         <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
         <vitar show-mesh :display="{ scale:1.2, offsetX:0, offsetY:2 }"/>
     </div>

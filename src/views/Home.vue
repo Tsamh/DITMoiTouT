@@ -1,7 +1,7 @@
 <template>
   <main>
     <!-- HERO SECTION -->
-    <section class="hero">
+    <section class="hero" v-reveal.fondu>
       <video autoplay loop muted playsinline class="back-video">
         <source src="../assets/videos/background.mp4" />
       </video>
@@ -13,9 +13,9 @@
     </section>
 
     <!-- AVANTAGES -->
-    <section class="features">
+    <section class="features" v-reveal>
       <h2>Pourquoi choisir DITMoiTout ?</h2>
-      <div class="feature-grid">
+      <div class="feature-grid" v-reveal.stagger>
         <div class="feature-item">
           <i class="fas fa-brain"></i>
           <h3>Organisation intelligente</h3>
@@ -35,7 +35,7 @@
     </section>
 
     <!-- CITATION MOTIVANTE -->
-    <section class="quote">
+    <section class="quote" v-reveal>
       <blockquote>
         “La répétition est la mère de l’apprentissage.”
       </blockquote>
@@ -44,7 +44,7 @@
     
     
     <!-- À propos -->
-    <section class="audience">
+    <section class="audience" v-reveal>
       <h2>À propos</h2>
       <p>
         Chez DITMoiTout, nous croyons qu'apprendre peut être efficace, ludique et accessible à tous.
@@ -56,7 +56,7 @@
       </p>
       
       <!-- CALL TO ACTION -->
-      <section class="final-cta">
+      <section class="final-cta" v-reveal>
         <h2>Prêt à booster vos révisions ?</h2>
         <router-link to="/revision" class="cta">Commencer maintenant</router-link>
       </section>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-reveal>
     <div class="login-form" :class="{ active: isLoginActive }" ref="loginForm">
 <div class="register-card">
       <h2>Créer un compte</h2>

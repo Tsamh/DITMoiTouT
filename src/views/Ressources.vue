@@ -1,7 +1,7 @@
 <template>
   <div class="resources">
     <!-- sidebar matières -->
-    <aside class="sidebar">
+    <aside class="sidebar" v-reveal>
       <div class="niveau">Licence 1</div>
       <ul class="matieres">
         <li>SIBD 1 (Modélisation conception) </li>
@@ -23,7 +23,7 @@
     <!-- contenu principal -->
     <main class="content">
       <!-- filtres -->
-      <div class="filters">
+      <div class="filters" v-reveal>
         <button class="active">Vidéos (48)</button>
         <button>Livres  (209)</button>
         <button>Quizzs (7)</button>
@@ -33,7 +33,7 @@
       </div>
 
       <!-- grille de ressources -->
-      <div class="cards">
+      <div class="cards" v-reveal.stagger>
         <div class="card" v-for="(item, i) in resources" :key="i">
           <div class="type">Vidéo</div>
           <img :src="item.img" class="thumbnail" />

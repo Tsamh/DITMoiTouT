@@ -1,6 +1,6 @@
 <template>
   <div class="register-page">
-    <div class="register-card">
+    <div class="register-card" v-reveal>
       <h2>Créer un compte</h2>
       <form @submit.prevent="register">
         <input v-model="name" type="text" placeholder="Entrez votre nom complet" required />

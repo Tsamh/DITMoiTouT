@@ -1,7 +1,7 @@
 <template>
   <h1>&nbsp;</h1>
   <main>
-    <section class="card-container">
+    <section class="card-container" v-reveal>
       <article class="content">
         <h2>Les professeurs</h2>
         <p class="presentation">
@@ -17,7 +17,7 @@
   </main>
 
   <template v-for="(niveau, index) in NIVEAUX" :key="niveau">
-    <div class=".contain">
+    <div class=".contain" v-reveal>
       <button class="container">
         {{ niveau }}
         <!-- Ancre id et non name : name est obsolète et introuvable par querySelector,
@@ -26,7 +26,7 @@
       </button>
     </div>
 
-    <div class="team">
+    <div class="team" v-reveal.stagger>
       <section class="card" v-for="prof in parNiveau(niveau)" :key="prof.id">
         <section class="imgBox">
           <img class="people" :src="photoUrl(prof.photo)" :alt="`Portrait de ${prof.nom}`" />

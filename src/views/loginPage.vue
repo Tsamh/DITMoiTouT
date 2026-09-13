@@ -1,6 +1,6 @@
 <template>
   <div class="login-page">
-    <div class="login-card">
+    <div class="login-card" v-reveal>
       <h2>Connexion</h2>
       <form @submit.prevent="login">
 
@@ -95,18 +95,6 @@ export default {
   max-width: 400px;
   width: 90%;
   text-align: center;
-  animation: popin 0.5s ease;
-}
-
-@keyframes popin {
-  from {
-    transform: scale(0.95);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
 }
 
 .login-card h2 {

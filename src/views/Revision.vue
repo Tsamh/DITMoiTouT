@@ -6,7 +6,7 @@
   <div class="container">
     <!-- services -->
 
-        <div class="text-appear">
+        <div class="text-appear" v-reveal>
           <p>
             <span>
               Allez
@@ -18,10 +18,10 @@
             </span>
           </p>
         </div>
-    <h1>Mes matières</h1>
+    <h1 v-reveal>Mes matières</h1>
 
     <!-- Barre d'actions -->
-    <div class="controls">
+    <div class="controls" v-reveal>
       <input v-model="newTaskTitle" placeholder="Nouvelle matière" />
       <button @click="addTask">Ajouter matière</button>
 
@@ -30,7 +30,7 @@
     </div>
 
     <!-- Grille des matières -->
-    <div class="grid">
+    <div class="grid" v-reveal.stagger>
       <div
         v-for="task in tasks"
         :key="task.id"
