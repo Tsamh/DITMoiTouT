@@ -105,7 +105,7 @@ Un seul `IntersectionObserver` pour toute l'application, créé paresseusement �
 
 ### Garde fous
 
-**Mouvement réduit.** `prefers-reduced-motion: reduce` supprime translations et transitions, le contenu s'affiche directement.
+**Mouvement réduit.** `prefers-reduced-motion: reduce` supprime translations et transitions, le contenu s'affiche directement. Ajout de la revue finale : cette coupure est désormais appliquée globalement (`*`, `*::before`, `*::after` dans `motion.css`), et non plus seulement aux classes propres à ce système, afin de couvrir aussi les animations préexistantes du site, dont deux infinies (néon de la barre de navigation, ligne qui s'écrit sur la page d'accueil).
 
 **Dégradation sûre.** L'état masqué n'est pas écrit dans le CSS de base. C'est la directive qui pose l'attribut `data-reveal` au montage, et le CSS ne masque que `[data-reveal]`. Si le JavaScript échoue ou si `IntersectionObserver` est absent, la page reste entièrement lisible. Le défaut dégradé est le contenu visible, jamais l'inverse.
 
@@ -127,6 +127,8 @@ Un seul `IntersectionObserver` pour toute l'application, créé paresseusement �
 ### Faille de connexion
 
 Ordre corrigé dans `loginPage.vue` : chercher le compte, comparer l'empreinte, et seulement en cas de succès enregistrer la session puis rediriger. En cas d'échec, rien n'est écrit dans `localStorage`. Les `alert()` sont remplacés par un message d'erreur affiché sous le formulaire : un `alert()` bloque le navigateur et détonne avec le reste du travail sur le mouvement.
+
+Ajout de la revue finale : la session est exposée par `src/utils/session.js` sous forme d'état réactif partagé (`utilisateurConnecte`, plus `ouvrirSession` et `fermerSession`), et non plus lue une seule fois par chaque composant. La barre de navigation vit hors de la vue routée et ne se remonte jamais lors d'une navigation ; sans cet état partagé, une connexion réussie resterait invisible dans la barre jusqu'à un rechargement manuel de la page.
 
 ### Mots de passe
 

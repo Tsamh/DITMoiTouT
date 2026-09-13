@@ -25,7 +25,7 @@
                         </ul> -->
                     </li>
                     <!-- Si utilisateur connecté -->
-                    <li v-if="userEmail" class="dropdown">
+                    <li v-if="utilisateurConnecte" class="dropdown">
                       <div @click="toggleMenu" class="user-btn">
                         <lord-icon
                           src="https://cdn.lordicon.com/gubjuhss.json"
@@ -33,7 +33,7 @@
                           stroke="light"
                           colors="primary:#121331,secondary:#3080e8,tertiary:#d59f80,quaternary:#b26836"
                           style="width:20px;height:20px">
-                        </lord-icon> {{ userEmail }}
+                        </lord-icon> {{ utilisateurConnecte.email }}
                       </div>
 
                       <ul v-if="showMenu" class="dropdown-menu">
@@ -54,29 +54,21 @@
 
 <script setup>
 //gerer l'affichage apres connexion
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { utilisateurConnecte, fermerSession } from '@/utils/session';
 
-const userEmail = ref('');
 const showMenu = ref(false);
 const router = useRouter();
-
-onMounted(() => {
-  const user = JSON.parse(localStorage.getItem('connectedUser'));
-  if (user && user.email) {
-    userEmail.value = user.email;
-  }
-});
 
 function toggleMenu() {
   showMenu.value = !showMenu.value;
 }
 
 function logout() {
-  localStorage.removeItem('connectedUser');
+  fermerSession();
   showMenu.value = false;
   router.push('/');
-  location.reload();
 }
 
 

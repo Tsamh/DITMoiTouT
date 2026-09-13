@@ -34,6 +34,7 @@
 </template>
 <script>
 import { calculerEmpreinte, lireUtilisateurs } from '@/utils/password'
+import { ouvrirSession } from '@/utils/session'
 
 export default {
   data() {
@@ -71,7 +72,7 @@ export default {
       }
 
       // La session n'est écrite qu'après vérification réussie.
-      localStorage.setItem('connectedUser', JSON.stringify({ email: compte.email, nom: compte.nom }))
+      ouvrirSession({ email: compte.email, nom: compte.nom })
       this.$router.push('/')
     },
   },
@@ -139,12 +140,6 @@ button[type="submit"] {
 button[type="submit"]:hover {
   background: #3498db;
   transform: translateY(-2px);
-}
-
-.message-erreur {
-  margin-top: 1rem;
-  color: #c0392b;
-  font-size: 0.95rem;
 }
 
 a {

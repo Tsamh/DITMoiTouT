@@ -213,3 +213,12 @@ html{
   color: #666;
   margin: 0;
 }
+
+/* Message d'erreur des formulaires de connexion et d'inscription.
+   Règle unique ici, importée partout via main.js, plutôt que dupliquée
+   dans chaque feuille de style de page. */
+.message-erreur {
+  margin-top: 1rem;
+  color: #c0392b;
+  font-size: 0.95rem;
+}

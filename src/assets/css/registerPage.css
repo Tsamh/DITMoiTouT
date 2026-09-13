@@ -93,9 +93,3 @@ button:hover {
   transform: scale(1.03);
   box-shadow: 0 6px 24px rgba(108, 99, 255, 0.6);
 }
-
-.message-erreur {
-  margin-top: 1rem;
-  color: #c0392b;
-  font-size: 0.95rem;
-}

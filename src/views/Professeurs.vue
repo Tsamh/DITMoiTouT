@@ -17,7 +17,12 @@
   </main>
 
   <template v-for="(niveau, index) in NIVEAUX" :key="niveau">
-    <div class=".contain" v-reveal>
+    <!-- Pas de v-reveal ici : la coquille ".contain" (avec un point, non corrigée
+         volontairement) laisse ce bloc à hauteur nulle, avec le bouton positionné
+         en absolu comme seul enfant. Un fondu ou une translation poserait alors
+         opacity/transform sur une boite vide, cachant le bouton et faisant
+         resurgir son positionnement absolu au moment de la révélation. -->
+    <div class=".contain">
       <button class="container">
         {{ niveau }}
         <!-- Ancre id et non name : name est obsolète et introuvable par querySelector,

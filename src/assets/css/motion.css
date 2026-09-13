@@ -75,3 +75,22 @@
     transition: none !important;
   }
 }
+
+/* Le bloc ci-dessus ne couvre que les animations posées par ce système de
+   mouvement. Le reste du site portait déjà des animations avant son
+   arrivée, y compris deux animations infinies : le néon de la barre de
+   navigation, qui reste à l'écran en permanence puisque la barre vit hors
+   de la vue routée, et la ligne qui s'écrit sur la page d'accueil. La règle
+   du projet est que le mouvement réduit supprime toute animation, sans
+   exception : ce bloc étend donc la coupure à l'ensemble du site. La durée
+   est ramenée à 0.01ms plutôt que none afin qu'un code qui attend encore un
+   événement de fin de transition ou d'animation continue de le recevoir. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

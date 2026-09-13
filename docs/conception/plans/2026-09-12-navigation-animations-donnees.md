@@ -1004,6 +1004,23 @@ Créer `src/assets/css/motion.css` :
     transition: none !important;
   }
 }
+
+/* Ajouté lors de la revue finale : le bloc ci-dessus ne coupe que les
+   animations de ce système de mouvement. Le reste du site portait déjà des
+   animations avant son arrivée, dont deux infinies (néon de la barre de
+   navigation, ligne qui s'écrit sur la page d'accueil). La règle du projet
+   veut que le mouvement réduit supprime toute animation sans exception, ce
+   bloc étend donc la coupure à l'ensemble du site. 0.01ms plutôt que none
+   pour qu'un code attendant un événement de fin de transition le reçoive. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 ```
 
 - [ ] **Step 2 : Créer la directive**
@@ -1429,11 +1446,10 @@ Dans `src/views/Professeurs.vue`, tel que réécrit en tâche 3 :
     <section class="card-container" v-reveal>
 ```
 ```html
-    <div class=".contain" v-reveal>
-```
-```html
     <div class="team" v-reveal.stagger>
 ```
+
+Aucun `v-reveal` n'est posé sur le `<div class=".contain">` : la revue finale a constaté qu'il est de hauteur nulle et sert de bloc de positionnement à un bouton absolu, si bien qu'un fondu ou une translation dessus cacherait le bouton et ferait resurgir son positionnement au moment de la révélation.
 
 La classe `.contain` s'écrit bien avec un point dans l'attribut `class` : c'est une coquille du code d'origine, inoffensive, que ce plan ne corrige pas pour rester dans son périmètre.
 

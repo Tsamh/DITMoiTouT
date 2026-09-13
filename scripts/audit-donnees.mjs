@@ -2,6 +2,10 @@
 // Échoue si un motif interdit réapparaît dans les sources publiées.
 // Les dossiers docs/ et scripts/ ne sont pas scannés : ils citent
 // volontairement ces motifs pour les documenter et les détecter.
+// Portée : cet audit ne scanne que l'arbre de travail publié, jamais
+// l'historique git. Une donnée retirée de l'arbre de travail reste donc
+// récupérable depuis les anciens commits tant que cet historique lui-même
+// n'a pas été réécrit.
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { join, extname, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -19,7 +23,7 @@ const MOTIFS = [
   },
   {
     nom: 'numéro de téléphone sénégalais',
-    regex: /\+221[\s\d]{8,}/,
+    regex: /\+221[\s\d.-]{8,}/,
   },
   {
     nom: 'compte Snapchat personnel',
