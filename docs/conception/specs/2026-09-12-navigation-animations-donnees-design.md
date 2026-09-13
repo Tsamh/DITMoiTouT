@@ -71,6 +71,8 @@ Vue Router déclenche le défilement dès la navigation confirmée, c'est à dir
 
 Le `scrollBehavior` renvoie une promesse qui attend `attendreSortie()` avant de résoudre la cible de défilement. Le défilement se produit donc dans l'intervalle où le DOM est vide, et reste invisible. La promesse est bornée par une sécurité de 600 ms : une transition avortée, interrompue ou jamais déclenchée ne doit jamais empêcher le défilement.
 
+Un signal peut aussi arriver en retard : si la sécurité résout déjà une attente avant que son signal n'arrive, ce signal tardif trouverait la navigation suivante en cours et la résoudrait instantanément, provoquant le saut visible que ce portail doit précisément éviter. Un drapeau retient qu'un signal reste dû à une attente déjà résolue par la sécurité et l'absorbe sans effet sur l'attente en cours ; si ce signal tardif n'arrive finalement jamais, le drapeau avale à sa place le prochain signal légitime, qui retombe alors sur sa propre sécurité de 600 ms, un défilement plus lent mais jamais désynchronisé.
+
 ### La transition
 
 `mode="out-in"`, pour éviter que deux pages se superposent.

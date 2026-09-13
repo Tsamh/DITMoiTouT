@@ -1185,6 +1185,13 @@ const SECURITE_MS = 600
 
 let resoudreEnCours = null
 
+// Un signal peut arriver en retard : la securite a deja resolu l'attente A,
+// une attente B a commence, puis le signal destine a A arrive et trouverait B
+// dans la case partagee. Ce drapeau retient qu'un signal est encore du pour
+// une attente deja resolue par la securite, afin de le consommer sans agir
+// sur l'attente suivante.
+let signalEnRetardAttendu = false
+
 export function attendreSortie() {
   return new Promise((resoudre) => {
     resoudreEnCours = resoudre
@@ -1192,6 +1199,7 @@ export function attendreSortie() {
     setTimeout(() => {
       if (resoudreEnCours === resoudre) {
         resoudreEnCours = null
+        signalEnRetardAttendu = true
         resoudre()
       }
     }, SECURITE_MS)
@@ -1199,6 +1207,17 @@ export function attendreSortie() {
 }
 
 export function signalerSortieTerminee() {
+  // Ce signal est celui, en retard, d'une attente deja resolue par la
+  // securite : on l'absorbe sans toucher a l'attente en cours.
+  // Limite acceptee : si la transition en retard n'envoie finalement jamais
+  // son signal, ce drapeau reste leve et avale le prochain signal legitime,
+  // qui retombera alors sur sa propre securite de 600 ms, un defilement plus
+  // lent mais jamais desynchronise.
+  if (signalEnRetardAttendu) {
+    signalEnRetardAttendu = false
+    return
+  }
+
   if (!resoudreEnCours) return
 
   const resoudre = resoudreEnCours
