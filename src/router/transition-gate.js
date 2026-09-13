@@ -11,10 +11,10 @@ const SECURITE_MS = 600
 
 let resoudreEnCours = null
 
-// Un signal peut arriver en retard : la securite a deja resolu l'attente A,
-// une attente B a commence, puis le signal destine a A arrive et trouverait B
-// dans la case partagee. Ce drapeau retient qu'un signal est encore du pour
-// une attente deja resolue par la securite, afin de le consommer sans agir
+// Un signal peut arriver en retard : la sécurité a déjà résolu l'attente A,
+// une attente B a commencé, puis le signal destiné à A arrive et trouverait B
+// dans la case partagée. Ce drapeau retient qu'un signal est encore dû pour
+// une attente déjà résolue par la sécurité, afin de le consommer sans agir
 // sur l'attente suivante.
 let signalEnRetardAttendu = false
 
@@ -33,12 +33,12 @@ export function attendreSortie() {
 }
 
 export function signalerSortieTerminee() {
-  // Ce signal est celui, en retard, d'une attente deja resolue par la
-  // securite : on l'absorbe sans toucher a l'attente en cours.
-  // Limite acceptee : si la transition en retard n'envoie finalement jamais
-  // son signal, ce drapeau reste leve et avale le prochain signal legitime,
-  // qui retombera alors sur sa propre securite de 600 ms, un defilement plus
-  // lent mais jamais desynchronise.
+  // Ce signal est celui, en retard, d'une attente déjà résolue par la
+  // sécurité : on l'absorbe sans toucher à l'attente en cours.
+  // Limite acceptée : si la transition en retard n'envoie finalement jamais
+  // son signal, ce drapeau reste levé et avale le prochain signal légitime,
+  // qui retombera alors sur sa propre sécurité de 600 ms, un défilement plus
+  // lent mais jamais désynchronisé.
   if (signalEnRetardAttendu) {
     signalEnRetardAttendu = false
     return
