@@ -1037,12 +1037,12 @@ function obtenirObservateur() {
   if (observateur) return observateur
 
   observateur = new IntersectionObserver(
-    (entrées) => {
-      for (const entrée of entrées) {
-        if (!entrée.isIntersecting) continue
-        const groupe = entrée.target.dataset.revealGroupe === 'oui'
-        entrée.target.classList.add(groupe ? CLASSE_REVELE_GROUPE : CLASSE_REVELE)
-        observateur.unobserve(entrée.target)
+    (entrees) => {
+      for (const entree of entrees) {
+        if (!entree.isIntersecting) continue
+        const groupe = entree.target.dataset.revealGroupe === 'oui'
+        entree.target.classList.add(groupe ? CLASSE_REVELE_GROUPE : CLASSE_REVELE)
+        observateur.unobserve(entree.target)
       }
     },
     {
