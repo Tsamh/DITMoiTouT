@@ -1048,7 +1048,7 @@ function obtenirObservateur() {
     {
       // Un bloc s'anime quand il a franchi le bas de l'écran d'environ un
       // huitième de la hauteur de fenêtre.
-      threshold: 0.15,
+      threshold: 0,
       rootMargin: '0px 0px -12% 0px',
     },
   )

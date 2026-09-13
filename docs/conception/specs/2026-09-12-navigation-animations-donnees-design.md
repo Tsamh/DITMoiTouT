@@ -92,7 +92,7 @@ Un seul `IntersectionObserver` pour toute l'application, créé paresseusement �
 
 ### Réglages
 
-- Déclenchement : `threshold: 0.15`, `rootMargin: '0px 0px -12% 0px'`. Un bloc s'anime quand il a franchi le bas de l'écran d'environ un huitième de la hauteur de fenêtre.
+- Déclenchement : `threshold: 0`, `rootMargin: '0px 0px -12% 0px'`. Un bloc s'anime quand il a franchi le bas de l'écran d'environ un huitième de la hauteur de fenêtre, retard que produit la marge négative du bas et elle seule. Le seuil reste à zéro délibérément : un seuil exprimé en proportion de la surface de l'élément n'est jamais atteint par un conteneur plus haut qu'environ six écrans, la fonction de rappel ne partirait alors jamais, et les enfants déjà masqués par la directive le resteraient définitivement.
 - Mouvement : opacité 0 vers 1, translation 28px vers le haut, durée 700 ms, même courbe que la transition de page. Une seule courbe pour tout le site, pour que l'ensemble se ressente comme un objet unique.
 - Cascade : le modificateur `.stagger` sur un conteneur décale ses enfants directs de 90 ms chacun, via une variable CSS `--reveal-delay` écrite sur chaque enfant. Le décalage est plafonné à six enfants puis repart à zéro : sans ce plafond, la quinzième carte attendrait une seconde et demie.
 

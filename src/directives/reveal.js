@@ -34,8 +34,15 @@ function obtenirObservateur() {
     },
     {
       // Un bloc s'anime quand il a franchi le bas de l'écran d'environ un
-      // huitième de la hauteur de fenêtre.
-      threshold: 0.15,
+      // huitième de la hauteur de fenêtre. C'est la marge négative du bas qui
+      // produit ce retard, et elle seule.
+      //
+      // Le seuil reste à zéro délibérément. Un seuil exprimé en proportion de
+      // la surface de l'élément, 0.15 par exemple, n'est jamais atteint par un
+      // conteneur plus haut qu'environ six écrans : le rapport visible plafonne
+      // sous le seuil, la fonction de rappel ne part jamais, et les enfants
+      // déjà masqués par la directive le resteraient définitivement.
+      threshold: 0,
       rootMargin: '0px 0px -12% 0px',
     },
   )
