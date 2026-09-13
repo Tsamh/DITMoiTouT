@@ -1,0 +1,77 @@
+/* Toutes les valeurs de mouvement du site sont ici.
+   Régler l'animation de l'ensemble revient à changer ces cinq variables. */
+:root {
+  --motion-courbe: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --motion-duree-revele: 700ms;
+  --motion-distance-revele: 28px;
+  --motion-duree-sortie: 220ms;
+  --motion-duree-entree: 420ms;
+}
+
+/* Révélation au défilement.
+   L'état masqué n'est jamais écrit dans le HTML : c'est la directive qui pose
+   data-reveal au montage. Sans JavaScript, la page reste entièrement lisible. */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(var(--motion-distance-revele));
+  transition:
+    opacity var(--motion-duree-revele) var(--motion-courbe),
+    transform var(--motion-duree-revele) var(--motion-courbe);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+/* Deux classes distinctes, et non un sélecteur descendant unique.
+   est-revele marque un élément qui se révèle lui-même, est-revele-groupe un
+   conteneur qui révèle ses enfants directs. Les confondre ferait apparaître
+   d'un coup tout bloc imbriqué dans un autre bloc révélé, par exemple
+   final-cta qui vit à l'intérieur de audience sur la page d'accueil. */
+[data-reveal].est-revele,
+.est-revele-groupe > [data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Fondu seul, pour les blocs pleine hauteur où une translation laisserait
+   apparaître une bande de fond. */
+[data-reveal].fondu {
+  transform: none;
+}
+
+/* Transition entre les pages.
+   Sortie brève et entrée posée : l'ancien contenu libère la place sans se
+   faire attendre, le nouveau s'installe. */
+.page-leave-active {
+  transition:
+    opacity var(--motion-duree-sortie) var(--motion-courbe),
+    transform var(--motion-duree-sortie) var(--motion-courbe);
+}
+
+.page-enter-active {
+  transition:
+    opacity var(--motion-duree-entree) var(--motion-courbe),
+    transform var(--motion-duree-entree) var(--motion-courbe);
+}
+
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(-12px);
+}
+
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-reveal].est-revele,
+  .est-revele-groupe > [data-reveal],
+  .page-enter-active,
+  .page-leave-active,
+  .page-enter-from,
+  .page-leave-to {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
