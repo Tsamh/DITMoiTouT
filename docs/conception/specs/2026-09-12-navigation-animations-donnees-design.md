@@ -73,6 +73,8 @@ Le `scrollBehavior` renvoie une promesse qui attend `attendreSortie()` avant de 
 
 Un signal peut aussi arriver en retard : si la sécurité résout déjà une attente avant que son signal n'arrive, ce signal tardif trouverait la navigation suivante en cours et la résoudrait instantanément, provoquant le saut visible que ce portail doit précisément éviter. Un drapeau retient qu'un signal reste dû à une attente déjà résolue par la sécurité et l'absorbe sans effet sur l'attente en cours ; si ce signal tardif n'arrive finalement jamais, le drapeau avale à sa place le prochain signal légitime, qui retombe alors sur sa propre sécurité de 600 ms, un défilement plus lent mais jamais désynchronisé.
 
+Une navigation qui en remplace une autre avant que son attente ne se soit résolue ne laisse jamais celle-ci en suspens : l'attente abandonnée se résout tout de même via sa propre sécurité de 600 ms, seule sa comptabilité interne s'efface au profit de l'attente suivante.
+
 ### La transition
 
 `mode="out-in"`, pour éviter que deux pages se superposent.

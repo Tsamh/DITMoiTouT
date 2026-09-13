@@ -1200,8 +1200,12 @@ export function attendreSortie() {
       if (resoudreEnCours === resoudre) {
         resoudreEnCours = null
         signalEnRetardAttendu = true
-        resoudre()
       }
+
+      // Une promesse doit toujours se résoudre, même quand sa navigation a
+      // été remplacée par une attente suivante : sinon cette attente-ci reste
+      // bloquée pour toujours, ce qui viole le contrat de ce module.
+      resoudre()
     }, SECURITE_MS)
   })
 }

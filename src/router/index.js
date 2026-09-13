@@ -33,6 +33,10 @@ const router = createRouter({
     // attendre bloquerait le défilement pendant la durée de sécurité.
     if (from.matched.length === 0) return cible
 
+    // Note : ce portail se déclenche via App.vue, qui clé la transition sur
+    // route.path. Un router-link qui ne change que le hash sur le même
+    // chemin ne redéclenche donc pas la sortie, et cette attente ne se
+    // résoudrait alors que par sa sécurité de 600 ms.
     await attendreSortie()
     return cible
   },
