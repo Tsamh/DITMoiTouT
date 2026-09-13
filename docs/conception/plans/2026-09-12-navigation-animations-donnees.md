@@ -1189,16 +1189,23 @@ Créer `src/router/transition-gate.js` :
 // jamais empêcher le défilement. Chaque attente possède ainsi son propre
 // délai de secours, qui la résout et la retire de la liste si aucun signal
 // n'est jamais arrivé pour elle.
+//
+// La correspondance entre un signal et une attente se fait par chemin, seule
+// identité que les deux extrémités peuvent déterminer indépendamment ; elle
+// n'est donc pas exacte. Cas limite documenté : si une sortie dépasse sa
+// propre sécurité de 600 ms puis que le visiteur revient sur ce même chemin
+// avant que le signal tardif n'arrive, une seconde attente de clé identique
+// est alors en cours, et ce signal tardif la résout à sa place.
 const SECURITE_MS = 600
 
 const attentesEnCours = []
 
 export function attendreSortie(cle) {
   return new Promise((resoudre) => {
-    const entree = { cle, resoudre }
+    const entree = { cle, resoudre, minuteur: null }
     attentesEnCours.push(entree)
 
-    setTimeout(() => {
+    entree.minuteur = setTimeout(() => {
       const index = attentesEnCours.indexOf(entree)
       if (index !== -1) {
         attentesEnCours.splice(index, 1)
@@ -1219,6 +1226,7 @@ export function signalerSortieTerminee(cle) {
   if (index === -1) return
 
   const [entree] = attentesEnCours.splice(index, 1)
+  clearTimeout(entree.minuteur)
   entree.resoudre()
 }
 ```
@@ -1246,6 +1254,12 @@ const router = createRouter({
     // attendre bloquerait le défilement pendant la durée de sécurité.
     if (from.matched.length === 0) return cible
 
+    // Sans changement de chemin, App.vue ne rejoue aucune sortie : il n'y a
+    // rien à attendre, et la page affichée est déjà celle d'arrivée. Cela
+    // couvre le clic sur le lien de la page courante, un changement de hash
+    // seul et un changement de query seul.
+    if (to.path === from.path) return cible
+
     await attendreSortie(from.path)
     return cible
   },
@@ -1264,7 +1278,7 @@ Remplacer intégralement `src/App.vue` par :
     </header>
     <main>
       <router-view v-slot="{ Component, route }">
-        <Transition name="page" mode="out-in" @after-leave="(el) => signalerSortieTerminee(el.dataset.route)">
+        <Transition name="page" mode="out-in" @after-leave="surSortieTerminee">
           <!-- Ce div n'est pas décoratif, il est indispensable.
                <Transition> ne sait animer qu'un seul élément racine, or
                Revision.vue, Professeurs.vue et Play.vue rendent plusieurs
@@ -1286,6 +1300,13 @@ Remplacer intégralement `src/App.vue` par :
 import NavBar from './components/NavBar.vue'
 import Footer from './components/Footer.vue'
 import { signalerSortieTerminee } from './router/transition-gate'
+
+// Défense en profondeur : un élément sans dataset ne devrait pas se produire
+// ici, mais ne doit pas non plus faire planter le gestionnaire de sortie.
+function surSortieTerminee(el) {
+  if (!el || !el.dataset) return
+  signalerSortieTerminee(el.dataset.route)
+}
 </script>
 ```
 

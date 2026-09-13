@@ -5,7 +5,7 @@
     </header>
     <main>
       <router-view v-slot="{ Component, route }">
-        <Transition name="page" mode="out-in" @after-leave="(el) => signalerSortieTerminee(el.dataset.route)">
+        <Transition name="page" mode="out-in" @after-leave="surSortieTerminee">
           <!-- Ce div n'est pas décoratif, il est indispensable.
                <Transition> ne sait animer qu'un seul élément racine, or
                Revision.vue, Professeurs.vue et Play.vue rendent plusieurs
@@ -27,4 +27,11 @@
 import NavBar from './components/NavBar.vue'
 import Footer from './components/Footer.vue'
 import { signalerSortieTerminee } from './router/transition-gate'
+
+// Défense en profondeur : un élément sans dataset ne devrait pas se produire
+// ici, mais ne doit pas non plus faire planter le gestionnaire de sortie.
+function surSortieTerminee(el) {
+  if (!el || !el.dataset) return
+  signalerSortieTerminee(el.dataset.route)
+}
 </script>

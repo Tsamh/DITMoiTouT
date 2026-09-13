@@ -33,12 +33,12 @@ const router = createRouter({
     // attendre bloquerait le défilement pendant la durée de sécurité.
     if (from.matched.length === 0) return cible
 
-    // Note : App.vue indexe la transition sur route.path. Un router-link qui
-    // ne changerait que le hash sur le même chemin ne redéclencherait donc pas
-    // la sortie, et cette attente ne se résoudrait que par sa sécurité de
-    // 600 ms. Aucun lien du site n'est dans ce cas aujourd'hui : les ancres de
-    // la page Professeurs sont des <a href="#l1"> natifs, qui ne passent pas
-    // par le routeur.
+    // Sans changement de chemin, App.vue ne rejoue aucune sortie : il n'y a
+    // rien à attendre, et la page affichée est déjà celle d'arrivée. Cela
+    // couvre le clic sur le lien de la page courante, un changement de hash
+    // seul et un changement de query seul.
+    if (to.path === from.path) return cible
+
     await attendreSortie(from.path)
     return cible
   },

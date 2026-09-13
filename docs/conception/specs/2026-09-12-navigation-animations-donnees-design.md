@@ -53,6 +53,7 @@ Chaque unité a une seule raison d'exister et une frontière explicite. La direc
 1. `savedPosition` non nul : l'utilisateur a utilisé précédent ou suivant, on restaure exactement sa position.
 2. `to.hash` présent : on défile jusqu'à l'élément visé.
 3. Sinon : `{ top: 0 }`.
+4. **Cas supplémentaire, indépendant du calcul de la cible ci-dessus** : `to.path === from.path`. Ce cas couvre le clic sur le lien de navigation de la page déjà affichée, un changement de hash seul et un changement de query seul. Comme la clé du `<Transition>` est `route.path` (section 5), `App.vue` ne rejoue alors aucune sortie : il n'y a rien à attendre, et la cible calculée par les trois cas ci-dessus est retournée immédiatement, sans passer par le portail de transition. Sans cette garde, ces trois navigations ne déclenchent jamais `@after-leave` et l'attente ne se résout que par sa sécurité de 600 ms, ce qui produit un temps mort visible avant le défilement.
 
 **Correctif requis.** `Professeurs.vue` utilise `<a name="l1">` pour ses ancres de niveau. L'attribut `name` est obsolète et `document.querySelector('#l1')` ne le trouve pas, donc le cas 2 serait inopérant. Les `name` deviennent des `id` sur les trois ancres L1, L2 et L3 ; les liens `href="#l1"` restent inchangés.
 
@@ -74,6 +75,8 @@ Le `scrollBehavior` renvoie une promesse qui attend `attendreSortie(from.path)` 
 Chaque attente est conservée dans une liste avec le chemin qu'elle quitte et son résolveur, tant qu'elle n'est pas réglée. Un signal cherche dans cette liste la première attente dont le chemin correspond, la retire et la résout ; un signal sans attente correspondante est ignoré sans effet sur les autres. Chercher la première entrée plutôt que la dernière compte quand un même chemin est quitté deux fois avant que les deux attentes ne se règlent, ce qui arrive en cas d'allers-retours rapides : l'attente la plus ancienne est celle dont la transition s'est terminée en premier.
 
 Chaque attente porte sa propre sécurité de 600 ms, qui la retire de la liste et la résout si aucun signal ne correspond jamais : une transition avortée, interrompue ou jamais déclenchée ne doit jamais empêcher le défilement. Comme l'identité du chemin distingue les attentes entre elles, un signal en retard pour une attente déjà résolue par sa sécurité ne trouve plus aucune entrée à laquelle se raccrocher et n'a donc aucune prise sur une navigation suivante.
+
+**Limitation documentée et non corrigée.** La correspondance entre un signal et une attente se fait par chemin, seule identité que les deux extrémités peuvent déterminer indépendamment ; elle n'est donc pas exacte. Cas limite : si une sortie dépasse sa propre sécurité de 600 ms puis que le visiteur revient sur ce même chemin avant que le signal tardif n'arrive, une seconde attente de clé identique est alors en cours, et ce signal tardif la résout à sa place au lieu d'être ignoré.
 
 ### La transition
 

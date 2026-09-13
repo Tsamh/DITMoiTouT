@@ -15,16 +15,23 @@
 // jamais empêcher le défilement. Chaque attente possède ainsi son propre
 // délai de secours, qui la résout et la retire de la liste si aucun signal
 // n'est jamais arrivé pour elle.
+//
+// La correspondance entre un signal et une attente se fait par chemin, seule
+// identité que les deux extrémités peuvent déterminer indépendamment ; elle
+// n'est donc pas exacte. Cas limite documenté : si une sortie dépasse sa
+// propre sécurité de 600 ms puis que le visiteur revient sur ce même chemin
+// avant que le signal tardif n'arrive, une seconde attente de clé identique
+// est alors en cours, et ce signal tardif la résout à sa place.
 const SECURITE_MS = 600
 
 const attentesEnCours = []
 
 export function attendreSortie(cle) {
   return new Promise((resoudre) => {
-    const entree = { cle, resoudre }
+    const entree = { cle, resoudre, minuteur: null }
     attentesEnCours.push(entree)
 
-    setTimeout(() => {
+    entree.minuteur = setTimeout(() => {
       const index = attentesEnCours.indexOf(entree)
       if (index !== -1) {
         attentesEnCours.splice(index, 1)
@@ -45,5 +52,6 @@ export function signalerSortieTerminee(cle) {
   if (index === -1) return
 
   const [entree] = attentesEnCours.splice(index, 1)
+  clearTimeout(entree.minuteur)
   entree.resoudre()
 }
