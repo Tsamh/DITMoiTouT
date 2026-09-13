@@ -43,7 +43,14 @@ export default {
 
       // Le mot de passe lui-même n'est jamais écrit : seule son empreinte l'est.
       const sel = genererSel()
-      const empreinte = await calculerEmpreinte(sel, this.password)
+      let empreinte
+      try {
+        empreinte = await calculerEmpreinte(sel, this.password)
+      } catch {
+        // crypto.subtle est absent hors contexte sécurisé (HTTPS ou localhost).
+        this.erreur = 'Inscription impossible : cette page doit être servie en HTTPS ou depuis localhost.'
+        return
+      }
 
       utilisateurs.push({
         nom: this.name,

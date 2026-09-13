@@ -50,14 +50,21 @@ export default {
       const utilisateurs = lireUtilisateurs()
       const compte = utilisateurs.find((u) => u.email === this.email)
 
-      // Message identique que le compte soit introuvable ou le mot de passe
-      // faux : sinon le formulaire révélerait quelles adresses sont inscrites.
+      // Les deux cas renvoient le même message par convention, étant entendu
+      // que sur un stockage local au navigateur cela ne protège rien qu'une inspection du stockage ne révélerait.
       if (!compte) {
         this.erreur = 'Identifiants incorrects.'
         return
       }
 
-      const empreinte = await calculerEmpreinte(compte.sel, this.password)
+      let empreinte
+      try {
+        empreinte = await calculerEmpreinte(compte.sel, this.password)
+      } catch {
+        // crypto.subtle est absent hors contexte sécurisé (HTTPS ou localhost).
+        this.erreur = 'Connexion impossible : cette page doit être servie en HTTPS ou depuis localhost.'
+        return
+      }
       if (empreinte !== compte.empreinte) {
         this.erreur = 'Identifiants incorrects.'
         return
