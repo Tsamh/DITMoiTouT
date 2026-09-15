@@ -5,18 +5,20 @@
                 <ul class="menu">
                     <li><router-link to="/" class="menu-items" >Accueil</router-link></li>
                 
-                    <li><router-link to="/revision" class="menu-items">Révision ▼</router-link>
+                    <li><router-link to="/revision" class="menu-items">Révision</router-link></li>
+
+                    <li><router-link to="/ressources" class="menu-items">Ressources ▼</router-link>
                         <ul class="submenu">
-                          <li class="liste-ventes"><router-link to="ressources">Ressources ▼</router-link>
-                            <ul class="subsubmenu">
-                              <li><a href="#">L1</a></li>
-                              <li><a href="#">L2</a></li>
-                              <li><a href="#">L3</a></li>
-                            </ul>
-                          </li>
+                          <li><a href="#">L1</a></li>
+                          <li><a href="#">L2</a></li>
+                          <li><a href="#">L3</a></li>
                         </ul>
                     </li>
-                    <li><router-link to="/amuser" class="menu-items">Récréation</router-link></li>
+
+                    <!-- Onglet Récréation volontairement masqué : la route /amuser existe toujours
+                         et reste atteignable par son adresse, mais le lien n'est ni visible ni
+                         cliquable, car display: none le retire aussi du parcours au clavier. -->
+                    <li class="onglet-masque"><router-link to="/amuser" class="menu-items">Récréation</router-link></li>
                     <li><router-link to="/professeurs" class="menu-items">Les professeurs </router-link>
                         <!-- <ul class="submenu">
                         <li><a href="#l1">L1</a></li>

@@ -38,11 +38,10 @@
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Effet d'ombre */
 }
 
-.subsubmenu {
-    display: none;
-}
-.menu li:hover .liste-ventes:hover .subsubmenu{
-  display: block;
+/* Onglet conservé dans le code mais retiré de l'interface : display: none le rend
+   invisible, non cliquable, et absent du parcours au clavier comme des lecteurs d'écran. */
+.onglet-masque {
+  display: none;
 }
 a{
     color: white;
