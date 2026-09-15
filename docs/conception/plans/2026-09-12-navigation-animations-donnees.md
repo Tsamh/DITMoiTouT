@@ -1,6 +1,6 @@
 # Navigation fluide, animations premium et retrait des données sensibles : plan d'implémentation
 
-> Plan a executer tache par tache. Steps use checkbox (`- [ ]`) syntax for tracking.
+> Plan à exécuter tâche par tâche. Les cases à cocher `- [ ]` servent au suivi de l'avancement.
 
 **Goal:** Faire repartir chaque changement de page depuis le haut, ajouter une transition de page et une révélation au défilement sur tout le site, et retirer du dépôt public toute donnée personnelle réelle, historique git compris.
 
@@ -12,7 +12,7 @@
 
 - **Aucune dépendance npm ajoutée.** Le `package.json` ne gagne qu'un script, pas un paquet.
 - **Aucun tiret cadratin** dans le code, les commentaires, les commits, la documentation ou le texte affiché. Utiliser deux-points, parenthèses ou virgules.
-- **Aucun pied de page d'attribution** dans les messages de commit. Pas de `Co-Authored-By`, pas de lien de session, pas de mention de generation automatique.
+- **Aucun pied de page d'attribution** dans les messages de commit. Pas de `Co-Authored-By`, pas de lien externe, pas de mention de génération automatique.
 - **Français sans accents dans les identifiants de code** (noms de fonctions, de variables, de fichiers). Les accents sont autorisés et attendus dans les commentaires et le texte affiché.
 - **Courbe d'accélération unique pour tout le site :** `cubic-bezier(0.22, 0.61, 0.36, 1)`.
 - **`prefers-reduced-motion: reduce` doit supprimer toute animation**, sans exception.
