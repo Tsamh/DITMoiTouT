@@ -69,8 +69,16 @@ h2 {
 /* presentation de l'equipe-------------------------------------------------------------------------------------- */
 .team{
   display: flex;
-  justify-content: space-around;
+  /* Retour à la ligne à toute largeur. Sans lui, les cinq cartes se partagent
+     la place disponible et se compriment : mesuré à 129px de large pour 480 de
+     haut vers 744px, et 231 pour 480 vers 1256px. Elles passent maintenant à la
+     ligne en gardant leur forme carrée. */
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
   width: 100%;
+  padding: 0 1.25rem;
+  box-sizing: border-box;
   margin-bottom: 3rem;
   /* Remplace les <br><br> qui séparaient les niveaux dans le template d'origine. */
 }
@@ -82,9 +90,12 @@ h2 {
   position: relative;
   width: 30rem;
   height: 30rem;
+  /* Ni compression ni étirement : la carte garde sa taille et passe à la
+     ligne. L'espacement est assuré par le gap de .team. */
+  flex: 0 0 auto;
+  max-width: 100%;
   background: white;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
-  margin-right: 20px;
 }
 
 .card:before,
@@ -262,5 +273,46 @@ span{
   .container {
     font-size: 1rem;
     padding: 0.75rem 1.75rem;
+  }
+}
+
+/* Appareils tactiles : le nom du professeur doit être lisible sans survol ---- */
+/* La boîte photo ne se soulève qu'au survol, donc sur un écran tactile le nom
+   et la matière restaient invisibles en permanence, sur une page dont c'est
+   précisément le contenu.
+   Deux conditions plutôt qu'une : la capacité de pointage couvre les tablettes
+   larges sans souris, la largeur couvre les fenêtres étroites, et afficher le
+   nom en permanence n'a aucun inconvénient dans l'un comme dans l'autre cas. */
+@media (hover: none), screen and (max-width: 738px) {
+  .card .imgBox {
+    bottom: 86px;
+  }
+
+  .details {
+    height: auto;
+    min-height: 76px;
+    bottom: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+  }
+
+  .details h1 {
+    font-size: 1rem;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  .details span {
+    font-size: 0.78rem;
+    line-height: 1.15;
+  }
+
+  .details .contact {
+    margin-top: 2px;
+    font-size: 0.72rem;
+    padding: 0.15rem 0.8rem;
   }
 }

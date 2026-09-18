@@ -129,10 +129,25 @@ body.menu-mobile-ouvert {
         /* Au-dessus du panneau, qui est lui aussi en z-index 10 : sans cela le
            bouton passe dessous et devient inatteignable menu ouvert. */
         z-index: 20;
+        top: 12px;
+        /* Pastille opaque. Les barres sont blanches et le bouton flotte
+           au-dessus du contenu de la page : sans ce fond, il disparaît
+           purement et simplement dès que le fond derrière est clair. */
+        background: #118a21;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    }
+    .icone-menu.ouvert {
+        background: #0d6b19;
     }
     /* faire disparaitre le menu de base sur petit écran */
+    /* Une fois le remplissage retiré, la barre ne mesurait plus que 12px de
+       haut, soit un liseré vert qui ne ressemblait pas à une barre de
+       navigation. Une hauteur franche pose le haut de page et sert de fond
+       au bouton du menu. */
     .navbar{
       padding: 0;
+      height: 68px;
     }
     .navbar .logo {
       position: absolute;
@@ -143,7 +158,11 @@ body.menu-mobile-ouvert {
       top: 0;
       left: 0;
       position: absolute;
-      background-color: rgba(255, 255, 255, 0.20);
+      /* Les liens du panneau sont blancs. Sur l'ancien voile blanc à 20%
+         par-dessus des pages claires, ils devenaient presque illisibles.
+         Le vert de la marque, quasi opaque, rend le texte franchement
+         lisible et rattache le panneau à la barre de navigation. */
+      background-color: rgba(13, 107, 25, 0.96);
       backdrop-filter: blur(8px);
       width: 100%;
       height: 100vh;
@@ -252,10 +271,13 @@ body.menu-mobile-ouvert {
     color: #fff;
   }
 
+/* Le lien actif se lit sur le vert, en grand écran comme dans le panneau
+   mobile. Le bleu nuit d'origine, malgré son commentaire annonçant une couleur
+   dorée, passait mal sur le vert et devenait illisible sur le panneau. */
 .router-link-active {
-  color: #0B2553; /* couleur dorée pour le lien actif */
+  color: #ffd166;
   font-weight: bold;
-  border-bottom: 2px solid #1C4388;
+  border-bottom: 2px solid #ffd166;
 }
 
 /* Bouton connecter apres connexion */
