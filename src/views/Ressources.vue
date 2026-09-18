@@ -267,5 +267,53 @@ const resources = ref([
   line-height: 1.2;
 }
 
+/* Adaptation aux petits écrans ------------------------------------------------ */
+/* Même point de rupture que la barre de navigation, 738px, pour que toute
+   l'interface bascule d'un seul coup plutôt que par morceaux. */
+@media screen and (max-width: 738px) {
+  /* Sans retour à la ligne, la barre latérale et le contenu restent côte à
+     côte et s'écrasent mutuellement. Ici elle passe au-dessus, pleine largeur. */
+  .resources {
+    flex-direction: column;
+  }
 
+  .sidebar {
+    width: auto;
+    margin: 120px 1rem 0;
+    border-radius: 16px;
+  }
+
+  .matieres li {
+    /* Zone tactile confortable pour un doigt. */
+    min-height: 44px;
+    padding: 0.75rem 0.5rem;
+  }
+
+  .content {
+    margin-top: 1.5rem;
+    padding: 1rem;
+  }
+
+  .filters {
+    gap: 0.6rem;
+    /* Les filtres défilent horizontalement plutôt que de casser la mise en page. */
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    scrollbar-width: thin;
+  }
+
+  .filters button {
+    flex: 0 0 auto;
+    min-height: 44px;
+  }
+
+  .cards {
+    gap: 1rem;
+  }
+
+  .card {
+    width: 100%;
+  }
+}
 </style>

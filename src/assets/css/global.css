@@ -48,7 +48,11 @@ html{
   }
   
   .content h1 {
-    font-size: 160px;
+    /* Taille fluide plutôt qu'une valeur figée : le titre suit la largeur de
+       l'écran en continu, au lieu de sauter brutalement à un point de rupture.
+       Le 13vw fait le travail, les deux bornes empêchent l'illisible et le démesuré. */
+    font-size: clamp(2.75rem, 13vw, 160px);
+    line-height: 1.05;
     color: #fff;
     font-weight: 600;
     transition: 0.5s;
@@ -116,6 +120,28 @@ html{
       height: 100%;
     }
   }
+
+/* Hero sur petits écrans ------------------------------------------------------ */
+@media screen and (max-width: 738px) {
+  .hero {
+    padding: 0 1.25rem;
+  }
+
+  /* Le slogan est en nowrap pour que l'animation de frappe fonctionne, ce qui
+     le fait déborder dès que l'écran est plus étroit que la phrase. On le
+     laisse s'animer, mais à une taille qui tient dans la largeur. */
+  .slogan {
+    font-size: clamp(0.8rem, 3.9vw, 24px);
+    margin-top: 2rem;
+  }
+
+  .content a {
+    font-size: 1.05rem;
+    padding: 12px 28px;
+    /* Zone tactile confortable pour un doigt. */
+    min-height: 44px;
+  }
+}
 
 /* Scroll bar ------------------------------------------------------------------------ */
 

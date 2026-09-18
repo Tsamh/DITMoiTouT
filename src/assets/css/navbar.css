@@ -66,19 +66,69 @@ a{
 .navbar .navlinks ul li{
   margin: 0 25px;
 }
-/* de base l'icone du menu ne doit pas apparaitre */
-.icone-menu{
-    display: none;
-    position: absolute;
-    top: 50px;
-    right: 30px;
-    width: 35px;
+/* De base le bouton du menu ne doit pas apparaître : il ne sert qu'en dessous
+   de 738px, où le menu horizontal ne tient plus. */
+.icone-menu {
+  display: none;
+  position: absolute;
+  top: 36px;
+  right: 20px;
+  /* 44px de côté : la taille minimale confortable pour un doigt. */
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  z-index: 20;
+}
+
+.icone-menu .barre {
+  display: block;
+  width: 100%;
+  height: 2px;
+  margin: 5px 0;
+  border-radius: 2px;
+  background: #fff;
+  transition:
+    transform var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease),
+    opacity var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease);
+}
+
+/* Les trois barres se croisent : la barre du milieu s'efface, les deux autres
+   pivotent pour former une croix. Le bouton dit ainsi lui-même son état. */
+.icone-menu.ouvert .barre:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.icone-menu.ouvert .barre:nth-child(2) {
+  opacity: 0;
+}
+
+.icone-menu.ouvert .barre:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Le panneau couvre l'écran : la page derrière ne doit pas défiler. */
+body.menu-mobile-ouvert {
+  overflow: hidden;
+}
+
+/* Contour visible uniquement au clavier, jamais à la souris. */
+.icone-menu:focus-visible,
+.menu-items:focus-visible,
+.navbar .logo:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+  border-radius: 4px;
 }
 @media screen and (max-width: 738px) {
     /* faire apparaitre l'icone du menu quand on est en dessous de 738px (sur un écran petit tel que le téléphone) */
-    .icone-menu{
+    .icone-menu {
         display: block;
-        z-index: 10;
+        /* Au-dessus du panneau, qui est lui aussi en z-index 10 : sans cela le
+           bouton passe dessous et devient inatteignable menu ouvert. */
+        z-index: 20;
     }
     /* faire disparaitre le menu de base sur petit écran */
     .navbar{
@@ -127,12 +177,6 @@ a{
   }
 }
 
-.icone-menu {
-  position: absolute;
-  top: 50px;
-  right: 50px;
-  width: 35px;
-}
 
 
 

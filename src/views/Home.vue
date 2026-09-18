@@ -238,4 +238,37 @@ main {
 .container:hover img {
   transform: translateX(100%);
 }
+
+/* Adaptation aux petits écrans ------------------------------------------------ */
+/* Le titre du hero est déjà fluide grâce à clamp() dans global.css : il n'a pas
+   besoin de point de rupture. Ne restent que les respirations à resserrer. */
+@media screen and (max-width: 738px) {
+  .features,
+  .demo-preview,
+  .audience,
+  .quote,
+  .how-it-works,
+  .final-cta {
+    padding: 2.5rem 1.25rem;
+  }
+
+  .feature-grid {
+    gap: 1.25rem;
+  }
+
+  .feature-item {
+    padding: 1.5rem;
+  }
+
+  .cta {
+    /* Zone tactile confortable, et le bouton ne dépasse jamais l'écran. */
+    display: inline-block;
+    min-height: 44px;
+    max-width: 100%;
+  }
+
+  blockquote {
+    font-size: 1.1rem;
+  }
+}
 </style>

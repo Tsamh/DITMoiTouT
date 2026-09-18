@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar">
             <router-link to="/" class="logo"><img class="BBB" src="../assets/images/logo_DITMoiTout.png" alt=""></router-link>
-            <div class="navlinks">
+            <div class="navlinks" id="menu-principal" :class="{ 'mobile-menu': menuOuvert }">
                 <ul class="menu">
                     <li><router-link to="/" class="menu-items" >Accueil</router-link></li>
                 
@@ -49,19 +49,35 @@
                     <li v-else class="button"><router-link to="/connexion" class="menu-items">Se connecter</router-link></li>
                 </ul>
             </div>
-            <!-- icone qui apparait quand on est sur petit ecran -->
-            <img src="../assets/images/icones/menu-btn.png" alt="icone-du-menu" class="icone-menu">
+            <!-- Bouton du menu, visible seulement sous 738px.
+                 Trois barres en CSS plutôt qu'une image : net à toute densité d'écran,
+                 et elles se croisent à l'ouverture pour montrer l'état du menu. -->
+            <button
+              type="button"
+              class="icone-menu"
+              :class="{ ouvert: menuOuvert }"
+              :aria-expanded="menuOuvert ? 'true' : 'false'"
+              aria-controls="menu-principal"
+              :aria-label="menuOuvert ? 'Fermer le menu' : 'Ouvrir le menu'"
+              @click.stop="basculerMenu"
+            >
+              <span class="barre"></span>
+              <span class="barre"></span>
+              <span class="barre"></span>
+            </button>
         </nav>
 </template>
 
 <script setup>
 //gerer l'affichage apres connexion
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import { utilisateurConnecte, fermerSession } from '@/utils/session';
 
 const showMenu = ref(false);
+const menuOuvert = ref(false);
 const router = useRouter();
+const route = useRoute();
 
 function toggleMenu() {
   showMenu.value = !showMenu.value;
@@ -70,23 +86,50 @@ function toggleMenu() {
 function logout() {
   fermerSession();
   showMenu.value = false;
+  menuOuvert.value = false;
   router.push('/');
 }
 
+function basculerMenu() {
+  menuOuvert.value = !menuOuvert.value;
+}
 
+function fermerMenu() {
+  menuOuvert.value = false;
+}
+
+// Le panneau couvre tout l'écran : sans cela on navigue et il reste ouvert
+// par-dessus la nouvelle page.
+watch(() => route.path, fermerMenu);
+
+// Le panneau se ferme aussi au clic en dehors et à la touche Échap, les deux
+// gestes qu'un visiteur tente spontanément pour sortir d'un menu plein écran.
+function surClicDocument(evenement) {
+  if (!menuOuvert.value) return;
+  if (evenement.target.closest('.navlinks, .icone-menu')) return;
+  fermerMenu();
+}
+
+function surToucheDocument(evenement) {
+  if (evenement.key === 'Escape') fermerMenu();
+}
+
+// Le défilement de la page derrière le panneau est bloqué tant qu'il est ouvert.
+watch(menuOuvert, (ouvert) => {
+  document.body.classList.toggle('menu-mobile-ouvert', ouvert);
+});
+
+onMounted(() => {
+  document.addEventListener('click', surClicDocument);
+  document.addEventListener('keydown', surToucheDocument);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', surClicDocument);
+  document.removeEventListener('keydown', surToucheDocument);
+  document.body.classList.remove('menu-mobile-ouvert');
+});
 </script>
 
-<script>
-export default {
-  data() {
-    return { menuOpen: false };
-  },
-  methods: {
-    toggleMenu() {
-      this.menuOpen = !this.menuOpen;
-    }
-  }
-};
-</script>
 <style src="../assets/css/navbar.css"></style>
 

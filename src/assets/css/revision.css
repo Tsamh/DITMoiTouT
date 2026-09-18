@@ -405,3 +405,35 @@ button:hover{
   }
 }
 
+
+/* Adaptation aux petits écrans ------------------------------------------------ */
+/* La grille des matières est déjà fluide grâce à auto-fill et minmax : c'est la
+   seule page du site qui était correctement construite. Ne restent que les
+   respirations à resserrer et les zones tactiles à agrandir. */
+@media screen and (max-width: 738px) {
+  .container {
+    padding: 1rem;
+    margin-top: 90px;
+  }
+
+  .controls input,
+  .controls button {
+    /* Zone tactile confortable pour un doigt. */
+    min-height: 44px;
+  }
+
+  .controls input {
+    min-width: 0;
+    flex: 1 1 100%;
+  }
+
+  .subtasks-popup {
+    padding: 1.5rem 1.25rem;
+    width: calc(100% - 2rem);
+  }
+
+  .timer-buttons button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
