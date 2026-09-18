@@ -170,7 +170,10 @@ body.menu-mobile-ouvert {
       justify-content: center;
       align-items: center;
       margin-left: -100%;
-      transition: all 0.5s ease;
+      /* Même courbe et mêmes durées que le reste du site : un seul appui
+         pilotait jusqu'ici deux accélérations différentes, celle des barres
+         du bouton et celle du panneau. */
+      transition: margin-left var(--motion-duree-entree, 420ms) var(--motion-courbe, ease);
       z-index: 10;
     }
     .navlinks.mobile-menu{

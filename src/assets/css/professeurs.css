@@ -82,9 +82,21 @@ h2 {
   margin-bottom: 3rem;
   /* Remplace les <br><br> qui séparaient les niveaux dans le template d'origine. */
 }
-.encre{
+/* Les trois ancres de niveau visent leur propre titre.
+   L'ancre L1 portait un décalage de 550px, calé à la main sur une mise en page
+   où chaque niveau tenait sur une seule ligne de cartes. Depuis que les cartes
+   passent à la ligne, la section est plus haute et ce décalage tombait au
+   milieu des fiches. Les ancres L2 et L3 n'avaient d'ailleurs aucune règle et
+   visaient déjà correctement leur titre : les trois se comportent maintenant
+   pareil.
+   scroll-margin-top réserve la place de la barre de navigation, qui est fixe
+   et recouvrirait sinon le titre vers lequel on vient de défiler. */
+.encre,
+.encre2,
+.encre3 {
   position: absolute;
-  top: 550px;
+  top: 0;
+  scroll-margin-top: 130px;
 }
 .card {
   position: relative;
