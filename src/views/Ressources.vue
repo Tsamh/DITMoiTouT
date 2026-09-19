@@ -23,12 +23,29 @@
       <aside class="sidebar" v-reveal>
         <h2 class="titre-colonne">Matières</h2>
 
+        <div class="recherche">
+          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+          <label class="visuellement-cache" for="rech-matiere">Rechercher une matière</label>
+          <input id="rech-matiere" v-model="recherche" type="search" placeholder="Rechercher une matière" />
+          <button
+            v-if="recherche"
+            type="button"
+            class="effacer"
+            aria-label="Effacer la recherche"
+            @click="recherche = ''"
+          ><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+        </div>
+
         <p v-if="!listeMatieres.length" class="vide-matieres">
           Les matières de {{ classe }} ne sont pas encore renseignées.
         </p>
 
+        <p v-else-if="!matieresFiltrees.length" class="vide-matieres">
+          Aucune matière ne correspond à « {{ recherche }} ».
+        </p>
+
         <ul v-else class="matieres">
-          <li v-for="m in listeMatieres" :key="m.id">
+          <li v-for="m in matieresFiltrees" :key="m.id">
             <button
               type="button"
               class="lien-matiere"
@@ -111,7 +128,24 @@ const catalogue = Object.entries(fichiers).map(([chemin, url]) => {
 })
 
 const classe = ref(CLASSES.includes(route.query.classe) ? route.query.classe : 'L1')
+const recherche = ref('')
 const listeMatieres = computed(() => matieresDe(classe.value))
+
+// Recherche insensible a la casse et aux accents : taper "modelisation" doit
+// trouver "Modélisation et conception", sinon la barre ne sert a rien.
+function normaliser(texte) {
+  return texte
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .trim()
+}
+
+const matieresFiltrees = computed(() => {
+  const q = normaliser(recherche.value)
+  if (!q) return listeMatieres.value
+  return listeMatieres.value.filter((m) => normaliser(m.nom).includes(q))
+})
 const matiere = ref(listeMatieres.value[0] ?? null)
 const type = ref(TYPES[0].id)
 

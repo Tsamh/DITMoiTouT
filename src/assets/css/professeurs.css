@@ -256,13 +256,21 @@ span{
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Le bouton Contacter remplace un lien : on lui redonne l'apparence du lien
-   d'origine et on marque clairement son état inactif. */
+/* Bouton Contacter : un vrai bouton, cadré et lisible, plutôt qu'un libellé
+   grisé qu'on distinguait à peine du fond de la carte. Il reste inactif tant
+   qu'aucun moyen de contact n'est en place, et son curseur le dit. */
 .details .contact {
+  margin-top: 0.3rem;
   font: inherit;
-  border: none;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 0.3rem 0.95rem;
+  border: 1px solid rgba(17, 138, 33, 0.45);
+  border-radius: 999px;
+  background: #fff;
+  color: #118a21;
   cursor: not-allowed;
-  opacity: 0.65;
 }
 
 /* Adaptation aux petits écrans ------------------------------------------------ */
@@ -295,10 +303,9 @@ span{
     margin-right: 0;
   }
 
-  /* L'ancre de niveau vise un décalage calculé pour le grand écran. */
-  .encre {
-    top: 320px;
-  }
+  /* Plus de décalage d'ancre à corriger ici : les trois ancres visent
+     désormais leur propre titre à toutes les largeurs, et la place de la barre
+     de navigation est réservée par scroll-margin-top. */
 
   .container {
     font-size: 1.15rem;
@@ -356,4 +363,95 @@ span{
     font-size: 0.72rem;
     padding: 0.15rem 0.8rem;
   }
+}
+
+/* Barre de recherche -------------------------------------------------------- */
+/* Elle cherche à la fois dans le nom et dans la matière : on tape "SQL" ou
+   "Sow", et la page ne garde que les fiches correspondantes. */
+
+.barre-recherche {
+  max-width: 720px;
+  margin: 0 auto 2.5rem;
+  padding: 0 1.25rem;
+}
+
+.recherche {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.recherche > i {
+  position: absolute;
+  left: 0.9rem;
+  font-size: 0.9rem;
+  color: rgba(17, 138, 33, 0.7);
+  pointer-events: none;
+}
+
+.recherche input {
+  width: 100%;
+  /* Zone tactile confortable pour un doigt. */
+  min-height: 48px;
+  padding: 0 2.6rem 0 2.5rem;
+  border: 1px solid rgba(17, 138, 33, 0.3);
+  border-radius: 999px;
+  background: #fff;
+  font: inherit;
+  font-size: 0.95rem;
+}
+
+.recherche input:focus {
+  outline: none;
+  border-color: #118a21;
+  box-shadow: 0 0 0 3px rgba(17, 138, 33, 0.12);
+}
+
+/* La croix native du champ de recherche varie d'un navigateur à l'autre :
+   on la masque et on fournit le bouton nous-mêmes. */
+.recherche input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.effacer {
+  position: absolute;
+  right: 0.5rem;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: #6a6a6a;
+  cursor: pointer;
+}
+
+.effacer:hover {
+  background: rgba(17, 138, 33, 0.1);
+}
+
+.resultat-recherche {
+  margin: 0.6rem 0 0;
+  font-size: 0.85rem;
+  color: #6a6a6a;
+  text-align: center;
+}
+
+.aucun-resultat {
+  max-width: 720px;
+  margin: 0 auto 3rem;
+  padding: 2.5rem 1.25rem;
+  text-align: center;
+  color: #6a6a6a;
+}
+
+.visuellement-cache {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }

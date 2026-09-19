@@ -63,6 +63,19 @@
       <p class="surtitre">Suivi du temps · {{ classe }}</p>
       <h1>Mes matières</h1>
 
+      <div class="recherche" v-reveal>
+        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+        <label class="visuellement-cache" for="rech-rev">Rechercher une matière</label>
+        <input id="rech-rev" v-model="recherche" type="search" placeholder="Rechercher une matière" />
+        <button
+          v-if="recherche"
+          type="button"
+          class="effacer"
+          aria-label="Effacer la recherche"
+          @click="recherche = ''"
+        ><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+      </div>
+
       <div class="controls" v-reveal>
         <input v-model="nouvelleMatiere" placeholder="Ajouter une matière" @keyup.enter="ajouterMatiere" />
         <button type="button" @click="ajouterMatiere">
@@ -165,6 +178,7 @@ const classe = ref(null)
 const selection = ref(null)
 const nouvelleMatiere = ref('')
 const nouvelleLecon = ref('')
+const recherche = ref('')
 const sens = ref(0)
 
 // Matieres ajoutees a la main par l'utilisateur, par classe.
@@ -179,11 +193,23 @@ function choisirClasse(c) {
   classe.value = c
 }
 
+// Recherche insensible a la casse et aux accents : taper "mathematiques" doit
+// trouver "Mathematiques" comme "Mathématiques".
+function normaliser(texte) {
+  return texte
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .trim()
+}
+
 const matieresAffichees = computed(() => {
   if (!classe.value) return []
   const base = matieresDe(classe.value).map((m) => ({ ...m, ajoutee: false }))
   const perso = (ajouts[classe.value] ?? []).map((m) => ({ ...m, ajoutee: true }))
-  const liste = [...base, ...perso]
+  let liste = [...base, ...perso]
+  const q = normaliser(recherche.value)
+  if (q) liste = liste.filter((m) => normaliser(m.nom).includes(q))
   if (sens.value) liste.sort((a, b) => sens.value * a.nom.localeCompare(b.nom))
   return liste
 })

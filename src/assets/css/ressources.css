@@ -358,3 +358,71 @@
     max-width: 100%;
   }
 }
+
+/* Barre de recherche des matières ------------------------------------------ */
+
+.recherche {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.9rem;
+}
+
+.recherche > i {
+  position: absolute;
+  left: 0.7rem;
+  font-size: 0.82rem;
+  color: rgba(17, 138, 33, 0.65);
+  pointer-events: none;
+}
+
+.recherche input {
+  width: 100%;
+  /* Zone tactile confortable pour un doigt. */
+  min-height: 44px;
+  padding: 0 2.2rem 0 2.1rem;
+  border: 1px solid rgba(17, 138, 33, 0.28);
+  border-radius: 9px;
+  background: #fff;
+  font: inherit;
+  font-size: 0.9rem;
+}
+
+.recherche input:focus {
+  outline: none;
+  border-color: #118a21;
+}
+
+/* La croix native du champ de recherche varie d'un navigateur à l'autre :
+   on la masque et on fournit le bouton nous-mêmes. */
+.recherche input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.effacer {
+  position: absolute;
+  right: 0.35rem;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #6a6a6a;
+  cursor: pointer;
+}
+
+.effacer:hover {
+  background: rgba(17, 138, 33, 0.1);
+}
+
+.visuellement-cache {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
