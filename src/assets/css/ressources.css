@@ -73,9 +73,38 @@
   margin: 0 auto;
   padding: 0 2rem;
   display: grid;
-  grid-template-columns: 270px 1fr;
+  /* minmax(0, ...) sur les deux pistes, et non 270px et 1fr bruts.
+     Une piste de grille a par défaut une taille minimale égale à son contenu :
+     une carte ou un libellé large pousse alors la colonne au delà de la place
+     disponible et fait déborder toute la page horizontalement. C'est le piège
+     classique de CSS grid, et il ne se voit qu'à certaines largeurs. */
+  grid-template-columns: minmax(0, 270px) minmax(0, 1fr);
   gap: 2rem;
   align-items: start;
+}
+
+/* Tablettes et fenêtres réduites --------------------------------------------- */
+/* Entre 739 et 1024px, la colonne des matières gardait ses 270px fixes à côté
+   du contenu : sur une tablette elle mangeait plus du tiers de la largeur et
+   la page paraissait tassée. Elle passe au dessus du contenu dès 1024px. */
+@media screen and (max-width: 1024px) {
+  .corps {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+
+  .sidebar {
+    position: static;
+    max-height: 340px;
+  }
+
+  /* La liste des matières s'étale en colonnes tant qu'il y a la place,
+     plutôt que de former une longue bande étroite. */
+  .matieres {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 0.25rem 0.75rem;
+  }
 }
 
 .sidebar {
@@ -337,10 +366,17 @@
     padding: 100px 1.25rem 1rem;
   }
 
+  /* Le passage en une colonne est déjà fait dès 1024px : il ne reste ici que
+     le resserrement des marges propre au téléphone. */
   .corps {
-    grid-template-columns: 1fr;
     padding: 0 1.25rem;
     gap: 1.25rem;
+  }
+
+  /* La liste redevient une simple colonne : deux colonnes de matières sur un
+     téléphone donneraient des libellés coupés. */
+  .matieres {
+    grid-template-columns: 1fr;
   }
 
   /* La colonne des matières passe au-dessus du contenu et cesse d'être
