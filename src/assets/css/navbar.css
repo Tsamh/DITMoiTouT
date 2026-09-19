@@ -149,11 +149,22 @@ body.menu-mobile-ouvert {
       padding: 0;
       height: 68px;
     }
+    /* Le logo était masqué par opacity: 0, hérité de l'époque où la barre ne
+       faisait que 12px de haut et où il n'avait pas la place de tenir.
+       La barre fait maintenant 68px : il redevient visible, calé dedans. */
     .navbar .logo {
       position: absolute;
-      top: 40px;
-      left: 30px;
+      top: 0;
+      left: 16px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      z-index: 20;
   }
+    .navbar .logo .BBB {
+      width: 104px;
+      margin-top: 0;
+    }
     .navlinks{
       top: 0;
       left: 0;
@@ -188,14 +199,33 @@ body.menu-mobile-ouvert {
       margin: 25px 0;
       font-size: 1.2em ;
     }
+    /* Le sous-menu L1, L2, L3 s'ouvrait sous le libellé et se posait par-dessus
+       le reste du menu. Il s'ouvre maintenant sur la droite, à hauteur de
+       Ressources, donc il ne recouvre plus aucun texte. */
     .menu li .submenu{
       display: none;
+      position: absolute;
+      top: 50%;
+      left: 100%;
+      transform: translateY(-50%);
+      margin-left: 14px;
+      padding: 0;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
   }
   .menu li:hover .submenu{
     display: block;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%);
 }
-  .logo{
-    opacity: 0;
+  .submenu li a {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 22px;
   }
 }
 
@@ -233,7 +263,10 @@ body.menu-mobile-ouvert {
   }
   
 
-  /*couleur du menu au survol  */
+  /* Couleur du menu au survol.
+     Le jaune remplace le bleu nuit, qui se lisait mal sur le vert. Le survol
+     est aussi plus rapide et plus serré : il cadre le libellé au lieu de
+     déborder d'un demi-cadre au-dessus et en dessous. */
   .menu-items:before {
     content: "";
     position: absolute;
@@ -242,36 +275,37 @@ body.menu-mobile-ouvert {
     width: 100%;
     height: 100%;
     opacity: 0;
-    transform: scaleY(2);
-    transition: 0.4s;
-    border-top: 2px solid #1c4388;
-    border-bottom: 2px solid #1c4388;
+    transform: scaleY(1.35);
+    transition: transform 0.18s var(--motion-courbe, ease), opacity 0.18s var(--motion-courbe, ease);
+    border-top: 2px solid #ffd166;
+    border-bottom: 2px solid #ffd166;
   }
-  
+
   .menu-items:hover:before {
-    transform: scaleY(1.2);
+    transform: scaleY(1.05);
     opacity: 1;
   }
-  
+
   .menu-items:after {
     content: "";
-    background: #1c4388;
+    background: #ffd166;
     position: absolute;
-    top: 2;
+    top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    transition: 0.4s;
+    transition: transform 0.18s var(--motion-courbe, ease);
     transform: scale(0);
     z-index: -1;
   }
-  
+
   .menu-items:hover:after {
     transform: scale(1);
   }
-  
+
+  /* Texte sombre sur le jaune : le blanc y serait illisible. */
   .menu-items:hover {
-    color: #fff;
+    color: #10331a;
   }
 
 /* Le lien actif se lit sur le vert, en grand écran comme dans le panneau
@@ -322,4 +356,26 @@ body.menu-mobile-ouvert {
 
 .dropdown-menu a:hover {
   color: #3b4cca;
+}
+/* Logo -------------------------------------------------------------------- */
+/* Le logo est un router-link : sur la page d'accueil il recevait la classe de
+   lien actif et se retrouvait donc souligné en jaune. Un logo ne se souligne
+   jamais, ni là ni ailleurs. */
+.navbar .logo,
+.navbar .logo.router-link-active {
+  border-bottom: none;
+  text-decoration: none;
+}
+
+/* Flèche de Ressources ------------------------------------------------------ */
+/* Elle pointe vers le bas au repos et vers la droite au survol, pour annoncer
+   que le sous-menu s'ouvre sur le côté. */
+.fleche {
+  display: inline-block;
+  transition: transform 0.18s var(--motion-courbe, ease);
+}
+
+.menu li:hover > .menu-items .fleche,
+.menu-items:hover .fleche {
+  transform: rotate(-90deg);
 }

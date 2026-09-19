@@ -27,9 +27,9 @@
           <p>Visualisez votre progression et boostez votre motivation.</p>
         </div>
         <div class="feature-item">
-          <i class="fas fa-mobile-alt"></i>
-          <h3>Responsive & accessible</h3>
-          <p>Utilisable sur mobile, tablette ou PC sans installation.</p>
+          <i class="fas fa-folder-open"></i>
+          <h3>Toutes vos ressources au même endroit</h3>
+          <p>Supports de cours, vidéos, devoirs et examens, rangés par classe et par matière.</p>
         </div>
       </div>
     </section>

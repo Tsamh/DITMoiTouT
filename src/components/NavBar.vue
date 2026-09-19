@@ -5,15 +5,15 @@
                 <ul class="menu">
                     <li><router-link to="/" class="menu-items" >Accueil</router-link></li>
                 
-                    <li><router-link to="/revision" class="menu-items">Révision</router-link></li>
-
-                    <li><router-link to="/ressources" class="menu-items">Ressources ▼</router-link>
+                    <li><router-link to="/ressources" class="menu-items">Ressources <span class="fleche" aria-hidden="true">▼</span></router-link>
                         <ul class="submenu">
-                          <li><a href="#">L1</a></li>
-                          <li><a href="#">L2</a></li>
-                          <li><a href="#">L3</a></li>
+                          <li><router-link to="/ressources?classe=L1">L1</router-link></li>
+                          <li><router-link to="/ressources?classe=L2">L2</router-link></li>
+                          <li><router-link to="/ressources?classe=L3">L3</router-link></li>
                         </ul>
                     </li>
+
+                    <li><router-link to="/revision" class="menu-items">Révision</router-link></li>
 
                     <!-- Onglet Récréation volontairement masqué : la route /amuser existe toujours
                          et reste atteignable par son adresse, mais le lien n'est ni visible ni
