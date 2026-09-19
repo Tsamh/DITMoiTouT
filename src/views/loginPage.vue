@@ -142,6 +142,37 @@ button[type="submit"]:hover {
   transform: translateY(-2px);
 }
 
+/* Cohérence avec le reste de la plateforme : même vert, mêmes zones tactiles
+   et même accent que l'inscription et que la barre de navigation. */
+.login-card {
+  border-top: 4px solid #118a21;
+}
+
+.login-card button[type="submit"] {
+  min-height: 46px;
+  width: 100%;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.input-group {
+  min-height: 46px;
+}
+
+.login-card input:focus-visible,
+.login-card button:focus-visible,
+.login-card a:focus-visible {
+  outline: 2px solid #118a21;
+  outline-offset: 3px;
+}
+
+@media screen and (max-width: 738px) {
+  .login-page {
+    padding: 96px 1.25rem 2rem;
+    align-items: flex-start;
+  }
+}
+
 a {
   display: block;
   margin-top: 1rem;
