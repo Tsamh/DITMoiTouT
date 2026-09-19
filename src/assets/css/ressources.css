@@ -1,0 +1,360 @@
+/* Page Ressources --------------------------------------------------------- */
+
+.ressources {
+  background: #f1eae2;
+  min-height: 100vh;
+  padding-bottom: 3rem;
+}
+
+/* En-tête et choix de la classe --------------------------------------------- */
+
+.entete {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 150px 2rem 1.5rem;
+}
+
+.surtitre {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #118a21;
+  margin: 0 0 0.4rem;
+}
+
+.entete h1 {
+  font-size: clamp(1.5rem, 3.4vw, 2.1rem);
+  line-height: 1.2;
+  color: #10331a;
+  margin: 0 0 1.5rem;
+}
+
+/* Les classes sont des boutons sur la page : on change de niveau sans passer
+   par le survol du menu, ce qui est impossible au doigt. */
+.onglets-classe {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.onglet {
+  min-width: 64px;
+  min-height: 44px;
+  padding: 0 1.4rem;
+  border: 1px solid rgba(17, 138, 33, 0.35);
+  border-radius: 999px;
+  background: #fff;
+  color: #10331a;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease),
+    color var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease),
+    border-color var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease);
+}
+
+.onglet:hover {
+  border-color: #118a21;
+  background: rgba(17, 138, 33, 0.08);
+}
+
+.onglet.actif {
+  background: #118a21;
+  border-color: #118a21;
+  color: #fff;
+}
+
+/* Corps : colonne des matières et zone de documents ------------------------- */
+
+.corps {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 270px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.sidebar {
+  background: #fff;
+  border: 1px solid rgba(17, 138, 33, 0.14);
+  border-radius: 16px;
+  padding: 1.25rem;
+  position: sticky;
+  top: 130px;
+  max-height: calc(100vh - 160px);
+  overflow-y: auto;
+}
+
+.titre-colonne {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #118a21;
+  margin: 0 0 0.9rem;
+}
+
+.matieres {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lien-matiere {
+  width: 100%;
+  /* Zone tactile confortable pour un doigt. */
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.55rem 0.7rem;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  color: #2b2b2b;
+  font: inherit;
+  font-size: 0.92rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease);
+}
+
+.lien-matiere:hover {
+  background: rgba(17, 138, 33, 0.08);
+}
+
+.lien-matiere.actif {
+  background: rgba(17, 138, 33, 0.14);
+  color: #10331a;
+  font-weight: 700;
+}
+
+.compte {
+  flex: 0 0 auto;
+  min-width: 1.6em;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #118a21;
+  background: rgba(17, 138, 33, 0.12);
+  border-radius: 999px;
+  padding: 0.1rem 0.45rem;
+}
+
+.vide-matieres {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #6a6a6a;
+  margin: 0;
+}
+
+/* Filtres par type ---------------------------------------------------------- */
+
+.filtres {
+  display: flex;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+
+.filtres button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0 1.1rem;
+  border: 1px solid rgba(17, 138, 33, 0.25);
+  border-radius: 999px;
+  background: #fff;
+  color: #2b2b2b;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease),
+    color var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease),
+    border-color var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease);
+}
+
+.filtres button:hover {
+  border-color: #118a21;
+  background: rgba(17, 138, 33, 0.08);
+}
+
+.filtres button.active {
+  background: #118a21;
+  border-color: #118a21;
+  color: #fff;
+}
+
+.pastille-compte {
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.1rem 0.45rem;
+  background: rgba(17, 138, 33, 0.14);
+  color: #118a21;
+}
+
+.filtres button.active .pastille-compte {
+  background: rgba(255, 255, 255, 0.24);
+  color: #fff;
+}
+
+.fil {
+  font-size: 0.85rem;
+  color: #6a6a6a;
+  margin: 0 0 1rem;
+}
+
+/* Documents ----------------------------------------------------------------- */
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.card {
+  flex: 1 1 250px;
+  max-width: 320px;
+  background: #fff;
+  border: 1px solid rgba(17, 138, 33, 0.14);
+  border-radius: 14px;
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  box-shadow: 0 2px 4px rgba(16, 51, 26, 0.05);
+  transition:
+    transform var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease),
+    box-shadow var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease);
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(16, 51, 26, 0.12);
+}
+
+.card .type {
+  align-self: flex-start;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #118a21;
+  background: rgba(17, 138, 33, 0.12);
+  border-radius: 6px;
+  padding: 0.2rem 0.5rem;
+}
+
+.card h3 {
+  font-size: 1rem;
+  line-height: 1.35;
+  color: #10331a;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.card-footer {
+  margin-top: auto;
+  display: flex;
+  gap: 0.6rem;
+}
+
+.action {
+  flex: 1;
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  background: #118a21;
+  color: #fff;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease);
+}
+
+.action:hover {
+  background: #0d6b19;
+}
+
+.action.secondaire {
+  background: transparent;
+  border: 1px solid rgba(17, 138, 33, 0.4);
+  color: #118a21;
+}
+
+.action.secondaire:hover {
+  background: rgba(17, 138, 33, 0.08);
+}
+
+.vide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 3.5rem 1rem;
+  text-align: center;
+  color: #6a6a6a;
+  background: #fff;
+  border: 1px dashed rgba(17, 138, 33, 0.3);
+  border-radius: 16px;
+}
+
+.vide i {
+  font-size: 1.8rem;
+  color: rgba(17, 138, 33, 0.5);
+}
+
+/* Contour visible uniquement au clavier. */
+.onglet:focus-visible,
+.lien-matiere:focus-visible,
+.filtres button:focus-visible,
+.action:focus-visible {
+  outline: 2px solid #118a21;
+  outline-offset: 3px;
+}
+
+/* Petits écrans -------------------------------------------------------------- */
+
+@media screen and (max-width: 738px) {
+  .entete {
+    padding: 100px 1.25rem 1rem;
+  }
+
+  .corps {
+    grid-template-columns: 1fr;
+    padding: 0 1.25rem;
+    gap: 1.25rem;
+  }
+
+  /* La colonne des matières passe au-dessus du contenu et cesse d'être
+     collante, sinon elle mangerait la moitié de l'écran. */
+  .sidebar {
+    position: static;
+    max-height: 320px;
+  }
+
+  /* Les filtres défilent horizontalement plutôt que de casser la mise en page. */
+  .filtres {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 0.4rem;
+  }
+
+  .filtres button {
+    flex: 0 0 auto;
+  }
+
+  .card {
+    max-width: 100%;
+  }
+}
