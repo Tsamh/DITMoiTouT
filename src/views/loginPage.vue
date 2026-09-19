@@ -144,10 +144,6 @@ button[type="submit"]:hover {
 
 /* Cohérence avec le reste de la plateforme : même vert, mêmes zones tactiles
    et même accent que l'inscription et que la barre de navigation. */
-.login-card {
-  border-top: 4px solid #118a21;
-}
-
 .login-card button[type="submit"] {
   min-height: 46px;
   width: 100%;

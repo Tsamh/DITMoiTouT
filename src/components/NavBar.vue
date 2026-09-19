@@ -5,7 +5,7 @@
                 <ul class="menu">
                     <li><router-link to="/" class="menu-items" >Accueil</router-link></li>
                 
-                    <li><router-link to="/ressources" class="menu-items">Ressources <span class="fleche" aria-hidden="true">▼</span></router-link>
+                    <li><router-link to="/ressources" class="menu-items">Ressources <i class="fa-solid fa-chevron-down fleche" aria-hidden="true"></i></router-link>
                         <ul class="submenu">
                           <li><router-link to="/ressources?classe=L1">L1</router-link></li>
                           <li><router-link to="/ressources?classe=L2">L2</router-link></li>

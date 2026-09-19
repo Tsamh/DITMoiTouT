@@ -248,3 +248,14 @@ html{
   color: #c0392b;
   font-size: 0.95rem;
 }
+
+/* Assistant conversationnel ------------------------------------------------ */
+/* Le composant vient d'ElevenLabs et vit dans un Shadow DOM : on ne peut pas
+   styler son intérieur. Il expose en revanche deux propriétés personnalisées,
+   qui suffisent à le contenir sur un petit écran où il mangeait la page. */
+@media screen and (max-width: 738px) {
+  elevenlabs-convai {
+    --elevenlabs-convai-widget-width: min(92vw, 330px);
+    --elevenlabs-convai-widget-height: min(68vh, 440px);
+  }
+}

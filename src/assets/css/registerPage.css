@@ -98,10 +98,6 @@ button:hover {
 /* Les deux formulaires partagent désormais les codes du site : fond beige,
    vert de la marque sur les actions, jaune sur l'accent, et des zones
    tactiles confortables. */
-.register-card {
-  border-top: 4px solid #118a21;
-}
-
 .register-card button {
   min-height: 46px;
   font: inherit;

@@ -232,28 +232,36 @@ body.menu-mobile-ouvert {
 
 
 
-@keyframes glowing {
+/* Le halo du bouton Se connecter suit le jaune du reste du menu, plus le
+     bleu nuit qui jurait avec le vert de la barre. */
+  @keyframes glowing {
     0% {
-      box-shadow: 0 0 5px #1c4388;
+      box-shadow: 0 0 5px rgba(255, 209, 102, 0.55);
     }
     50% {
-      box-shadow: 0 0 20px #1c4388;
+      box-shadow: 0 0 18px rgba(255, 209, 102, 0.85);
     }
     100% {
-      box-shadow: 0 0 5px #1c4388;
+      box-shadow: 0 0 5px rgba(255, 209, 102, 0.55);
     }
   }
-  
+
   .button {
-    
+
     color: white;
     padding: 10px 20px;
     border: none;
     cursor: pointer;
     animation: glowing 1.5s infinite;
   }
+  /* Le survol passait au bleu nuit. Il reprend le jaune du menu, avec un texte
+     sombre pour rester lisible. */
   .button:hover{
-    background-color: #1c4388;
+    background-color: #ffd166;
+  }
+  .button:hover .menu-items,
+  .button:hover a {
+    color: #10331a;
   }
   
   @keyframes blink {
@@ -368,14 +376,24 @@ body.menu-mobile-ouvert {
 }
 
 /* Flèche de Ressources ------------------------------------------------------ */
-/* Elle pointe vers le bas au repos et vers la droite au survol, pour annoncer
-   que le sous-menu s'ouvre sur le côté. */
+/* Un chevron plutôt qu'un triangle plein : c'est le signe habituel d'un menu
+   qui se déplie, plus léger et plus lisible à petite taille.
+   Au repos il pointe vers le bas, ce qui annonce déjà qu'il y a quelque chose
+   à ouvrir. Au survol il pivote vers la droite, dans la direction où le
+   sous-menu apparaît, et grossit légèrement pour confirmer la réaction. */
 .fleche {
   display: inline-block;
-  transition: transform 0.18s var(--motion-courbe, ease);
+  font-size: 0.7em;
+  margin-left: 0.35em;
+  vertical-align: middle;
+  opacity: 0.8;
+  transition:
+    transform 0.18s var(--motion-courbe, ease),
+    opacity 0.18s var(--motion-courbe, ease);
 }
 
 .menu li:hover > .menu-items .fleche,
 .menu-items:hover .fleche {
-  transform: rotate(-90deg);
+  transform: rotate(-90deg) scale(1.15);
+  opacity: 1;
 }

@@ -1,19 +1,30 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="fr">
   <head>
     <meta charset="UTF-8">
     <link rel="icon" href="/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>DITMoiTout</title>
-    <elevenlabs-convai agent-id="CrFVMCOT3A7nuHSPdaDe">
-    </elevenlabs-convai>
-    <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript">
-    </script>
   </head>
-  
+
   <body>
     <div class="container" id="app"></div>
+
+    <!-- Assistant conversationnel.
+         Il etait place dans <head>, ou un element personnalise n'a rien a faire :
+         il appartient au corps du document.
+         dismissible ajoute le bouton de fermeture a cote du bouton d'agrandissement.
+         Sa taille sur petit ecran est reglee dans global.css, via les deux
+         proprietes personnalisees que le composant expose. -->
+    <elevenlabs-convai
+      agent-id="CrFVMCOT3A7nuHSPdaDe"
+      dismissible="true"
+      collapse-text="Fermer"
+      expand-text="Agrandir"
+    ></elevenlabs-convai>
+    <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
