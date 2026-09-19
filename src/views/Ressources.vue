@@ -81,8 +81,12 @@
             <div class="type">{{ libelleType }}</div>
             <h3>{{ doc.nom }}</h3>
             <div class="card-footer">
-              <a class="action" :href="doc.url" target="_blank" rel="noopener">Lire</a>
-              <a class="action secondaire" :href="doc.url" :download="doc.fichier">Télécharger</a>
+              <button type="button" class="action" @click="ouvrirLecture(doc)">
+                <i class="fa-solid fa-book-open-reader" aria-hidden="true"></i> Lire
+              </button>
+              <a class="action secondaire" :href="doc.url" :download="doc.fichier">
+                <i class="fa-solid fa-download" aria-hidden="true"></i> Télécharger
+              </a>
             </div>
           </article>
         </div>
@@ -94,11 +98,48 @@
         </p>
       </main>
     </div>
+
+    <!-- Lecteur intégré : le document s'ouvre dans la page, jamais dans un
+         nouvel onglet, et le bouton de téléchargement reste à portée pendant
+         toute la lecture. -->
+    <Transition name="page">
+      <div v-if="lecture" class="lecteur-overlay" @click.self="fermerLecture">
+        <div class="lecteur" role="dialog" aria-modal="true" :aria-label="lecture.nom">
+          <header class="lecteur-entete">
+            <div class="lecteur-titre">
+              <span class="type">{{ libelleType }}</span>
+              <h3>{{ lecture.nom }}</h3>
+            </div>
+            <div class="lecteur-actions">
+              <a class="action secondaire" :href="lecture.url" :download="lecture.fichier">
+                <i class="fa-solid fa-download" aria-hidden="true"></i>
+                <span class="texte-action">Télécharger</span>
+              </a>
+              <button type="button" class="fermer-lecteur" aria-label="Fermer le lecteur" @click="fermerLecture">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+              </button>
+            </div>
+          </header>
+
+          <div class="lecteur-corps">
+            <video
+              v-if="estVideo(lecture)"
+              :key="lecture.url"
+              :src="lecture.url"
+              controls
+              playsinline
+              preload="metadata"
+            ></video>
+            <iframe v-else :key="lecture.url" :src="lecture.url" :title="lecture.nom"></iframe>
+          </div>
+        </div>
+      </div>
+    </Transition>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue'
+import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { CLASSES, TYPES, matieresDe } from '@/data/ressources'
 
@@ -184,6 +225,39 @@ function choisirClasse(c) {
   classe.value = c
   router.replace({ query: { ...route.query, classe: c } })
 }
+
+// Lecteur intégré ------------------------------------------------------------
+
+const lecture = ref(null)
+
+function estVideo(doc) {
+  return /\.mp4$/i.test(doc.fichier)
+}
+
+function ouvrirLecture(doc) {
+  lecture.value = doc
+}
+
+function fermerLecture() {
+  lecture.value = null
+}
+
+// Le lecteur couvre l'écran : la page derrière ne doit pas défiler, et Échap
+// doit le refermer, comme pour n'importe quelle fenêtre modale.
+watch(lecture, (ouvert) => {
+  document.body.classList.toggle('lecture-ouverte', Boolean(ouvert))
+})
+
+function surTouche(evenement) {
+  if (evenement.key === 'Escape') fermerLecture()
+}
+
+onMounted(() => document.addEventListener('keydown', surTouche))
+
+onBeforeUnmount(() => {
+  document.removeEventListener('keydown', surTouche)
+  document.body.classList.remove('lecture-ouverte')
+})
 
 // Changer de classe remet la selection sur la premiere matiere disponible,
 // sinon on garderait une matiere qui n'appartient plus a la classe affichee.

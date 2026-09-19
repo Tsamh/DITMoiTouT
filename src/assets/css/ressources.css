@@ -267,18 +267,25 @@
   gap: 0.6rem;
 }
 
+/* Deux éléments différents portent cette classe : un lien pour télécharger,
+   un bouton pour lire. Les propriétés remises à plat ici évitent que le bouton
+   hérite de la bordure et de la police du système. */
 .action {
   flex: 1;
   min-height: 42px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.45rem;
+  border: none;
   border-radius: 9px;
   background: #118a21;
   color: #fff;
+  font: inherit;
   font-size: 0.88rem;
   font-weight: 600;
   text-decoration: none;
+  cursor: pointer;
   transition: background-color var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease);
 }
 
@@ -425,4 +432,151 @@
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* Lecteur intégré ----------------------------------------------------------- */
+/* Le document s'ouvre par-dessus la page plutôt que dans un nouvel onglet,
+   et le bouton de téléchargement reste dans l'en-tête pendant toute la
+   lecture, donc joignable sans rien refermer. */
+
+.lecteur-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: rgba(16, 51, 26, 0.72);
+}
+
+.lecteur {
+  display: flex;
+  flex-direction: column;
+  width: min(1100px, 100%);
+  height: min(88vh, 100%);
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+}
+
+.lecteur-entete {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(17, 138, 33, 0.16);
+  background: #fff;
+}
+
+.lecteur-titre {
+  min-width: 0;
+}
+
+.lecteur-titre .type {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #118a21;
+  background: rgba(17, 138, 33, 0.12);
+  border-radius: 6px;
+  padding: 0.15rem 0.45rem;
+  margin-bottom: 0.25rem;
+}
+
+.lecteur-titre h3 {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.3;
+  color: #10331a;
+  overflow-wrap: anywhere;
+}
+
+.lecteur-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex: 0 0 auto;
+}
+
+.lecteur-actions .action {
+  flex: 0 0 auto;
+  padding: 0 1rem;
+  gap: 0.45rem;
+}
+
+.fermer-lecteur {
+  /* Zone tactile confortable pour un doigt. */
+  width: 44px;
+  height: 44px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(17, 138, 33, 0.3);
+  border-radius: 10px;
+  background: #fff;
+  color: #10331a;
+  cursor: pointer;
+  transition: background-color var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease);
+}
+
+.fermer-lecteur:hover {
+  background: rgba(17, 138, 33, 0.1);
+}
+
+.lecteur-corps {
+  flex: 1;
+  min-height: 0;
+  background: #1c1c1c;
+}
+
+.lecteur-corps iframe,
+.lecteur-corps video {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+.lecteur-corps video {
+  background: #000;
+  object-fit: contain;
+}
+
+.fermer-lecteur:focus-visible {
+  outline: 2px solid #118a21;
+  outline-offset: 3px;
+}
+
+@media screen and (max-width: 738px) {
+  .lecteur-overlay {
+    padding: 0;
+  }
+
+  .lecteur {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+
+  /* Sur un téléphone, le libellé du bouton mangerait la place du titre :
+     l'icône suffit, et le nom reste annoncé aux lecteurs d'écran. */
+  .lecteur-actions .texte-action {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  .lecteur-actions .action {
+    width: 44px;
+    padding: 0;
+    justify-content: center;
+  }
 }

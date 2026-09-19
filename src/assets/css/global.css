@@ -259,3 +259,8 @@ html{
     --elevenlabs-convai-widget-height: min(68vh, 440px);
   }
 }
+
+/* La page ne doit pas défiler derrière le lecteur de documents ouvert. */
+body.lecture-ouverte {
+  overflow: hidden;
+}
