@@ -100,8 +100,11 @@ h2 {
 }
 .card {
   position: relative;
-  width: 30rem;
-  height: 30rem;
+  /* Cartes nettement resserrées : 30rem faisaient 480px de côté et deux fiches
+     suffisaient à remplir un écran. 19rem en laissent tenir quatre par ligne,
+     ce qui donne enfin une vraie vue d'ensemble de l'équipe. */
+  width: 19rem;
+  height: 19rem;
   /* Ni compression ni étirement : la carte garde sa taille et passe à la
      ligne. L'espacement est assuré par le gap de .team. */
   flex: 0 0 auto;
