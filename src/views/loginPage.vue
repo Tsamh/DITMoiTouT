@@ -84,7 +84,7 @@ export default {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #e0eafc, #cfdef3);
+  background: #f1eae2;
   font-family: 'Segoe UI', sans-serif;
 }
 
@@ -100,7 +100,7 @@ export default {
 
 .login-card h2 {
   margin-bottom: 1.5rem;
-  color: #2c3e50;
+  color: #10331a;
 }
 
 .input-group {
@@ -115,7 +115,7 @@ export default {
   transition: border-color 0.3s ease;
 }
 .input-group:focus-within {
-  border-color: #4bb3fd;
+  border-color: #118a21;
 }
 
 .input-group input {
@@ -128,7 +128,7 @@ export default {
 }
 
 button[type="submit"] {
-  background: #4bb3fd;
+  background: #118a21;
   color: white;
   border: none;
   padding: 0.7rem 1.5rem;
@@ -138,20 +138,20 @@ button[type="submit"] {
   transition: background 0.3s ease, transform 0.2s;
 }
 button[type="submit"]:hover {
-  background: #3498db;
+  background: #0d6b19;
   transform: translateY(-2px);
 }
 
 a {
   display: block;
   margin-top: 1rem;
-  color: #3498db;
+  color: #118a21;
   font-size: 0.95rem;
   text-decoration: none;
   transition: color 0.3s;
 }
 a:hover {
-  color: #2c3e50;
+  color: #10331a;
 }
 </style>
 

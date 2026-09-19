@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(to right, #e0eafc, #cfdef3);
+  background: #f1eae2;
   font-family: 'Poppins', sans-serif;
 }
 
@@ -37,14 +37,14 @@
 }
 
 .register-card input:focus {
-  border-color: #3498db;
+  border-color: #118a21;
   outline: none;
 }
 
 .register-card button {
   padding: 0.8rem;
   border: none;
-  background-color: #4bb3fd;
+  background-color: #118a21;
   color: white;
   font-weight: bold;
   border-radius: 8px;
@@ -53,13 +53,13 @@
 }
 
 .register-card button:hover {
-  background-color: #4bb3fd;
+  background-color: #118a21;
 }
 
 .login-link {
   display: block;
   margin-top: 1rem;
-  color: #4bb3fd;
+  color: #118a21;
   text-decoration: none;
   font-size: 0.95rem;
 }
@@ -73,11 +73,11 @@
 input:focus {
   outline: none;
   background: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 0 0 2px #3498db;
+  box-shadow: 0 0 0 2px #118a21;
 }
 
 button {
-  background-color: #3498db;
+  background-color: #118a21;
   color: white;
   font-weight: bold;
   border: none;
@@ -92,4 +92,42 @@ button:hover {
   background-color: #574fd6;
   transform: scale(1.03);
   box-shadow: 0 6px 24px rgba(108, 99, 255, 0.6);
+}
+
+/* Cohérence avec le reste de la plateforme --------------------------------- */
+/* Les deux formulaires partagent désormais les codes du site : fond beige,
+   vert de la marque sur les actions, jaune sur l'accent, et des zones
+   tactiles confortables. */
+.register-card {
+  border-top: 4px solid #118a21;
+}
+
+.register-card button {
+  min-height: 46px;
+  font: inherit;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transition: background-color var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease);
+}
+
+.register-card button:hover {
+  background-color: #0d6b19;
+}
+
+.register-card input {
+  min-height: 46px;
+}
+
+.register-card input:focus-visible,
+.register-card button:focus-visible,
+.login-link:focus-visible {
+  outline: 2px solid #118a21;
+  outline-offset: 3px;
+}
+
+@media screen and (max-width: 738px) {
+  .register-page {
+    padding: 96px 1.25rem 2rem;
+    align-items: flex-start;
+  }
 }

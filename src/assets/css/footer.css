@@ -1,147 +1,223 @@
-footer {
+/* Pied de page ------------------------------------------------------------- */
+/* L'ancien fond allait du vert au blanc de gauche à droite, alors que tout le
+   texte est blanc : la moitié droite était illisible. Le dégradé est maintenant
+   vertical et reste vert d'un bout à l'autre. */
+.footer {
   width: 100%;
-  border-top-left-radius: 20%;
-  border-top-right-radius: 20%;
   color: #fff;
-  background: linear-gradient(90deg, rgb(17, 138, 33) 50%, rgb(255, 255, 255) 100%);
+  background: linear-gradient(180deg, #118a21 0%, #0d6b19 100%);
+  /* Une courbe discrète plutôt qu'un rayon de 20% qui déformait tout le haut. */
+  border-top-left-radius: 28px;
+  border-top-right-radius: 28px;
+  margin-top: 4rem;
 }
-footer ul {
+
+.footer ul {
   list-style: none;
+  padding: 0;
+  margin: 0;
 }
-footer p {
-  color: #fff;
-  max-width: 25em;
-  font-size: 0.9em;
-  line-height: 23px;
-}
-footer a {
+
+.footer a {
   color: #fff;
   text-decoration: none;
 }
-footer .container {
+
+.footer .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2em;
+  padding: 3rem 2rem 2rem;
+  display: grid;
+  /* Quatre colonnes qui se réorganisent seules selon la place disponible,
+     sans point de rupture à maintenir. */
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 2.5rem;
+  align-items: start;
 }
-.footer .container {
-  display: flex;
-  justify-content: space-between;
-  gap: 2em;
+
+.footer .col h2 {
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 1rem;
+  color: #ffd166;
 }
-.logo {
-  display: block;
-  margin-bottom: 1em;
-}
-.media-icons li,
-.services-icons li {
+
+/* Identite ------------------------------------------------------------------ */
+
+.footer .logo {
   display: inline-block;
-  margin: 0.5em 0.5em 0.5em 0;
+  margin-bottom: 0.75rem;
+  border-bottom: none;
 }
+
+.footer .logo .BBB {
+  width: 132px;
+  margin-top: 0;
+}
+
+.footer .accroche {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  max-width: 28ch;
+  margin: 0 0 1.25rem;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.media-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
 .media-icons a {
-  font-size: 1.1em;
-  width: 2em;
-  height: 2em;
-  border: 1px #fff solid;
+  width: 2.35em;
+  height: 2.35em;
+  font-size: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.55);
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: 0.3s;
+  transition:
+    background-color var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease),
+    color var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease),
+    transform var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease);
 }
+
 .media-icons a:hover {
   background: #fff;
-  color: #111;
+  color: #0d6b19;
+  transform: translateY(-2px);
 }
 
-.fa-youtube:hover {
-  color: #FF0000;
-}
-.fa-discord:hover {
-  color: #6565fa;
-}
-.fa-instagram:hover {
-  color:  #C32AA3;
-}
-.fa-facebook:hover {
-  color: #3B5998;
-}
-.fa-whatsapp:hover {
-  color: #25D366;
-}
-.fa-twitter:hover {
-  color: #1DA1F2;
-}
-.fa-tiktok:hover {
-  color: #000;
-}
-.fa-snapchat:hover {
-  color: #FFFC00;
-}
-.fa-linkedin:hover {
-  color: #007BB5;
-}
-.fa-github:hover {
-  color: #000;
+/* Navigation et adresse ----------------------------------------------------- */
+
+.col-liens li {
+  margin-bottom: 0.6rem;
 }
 
-.services-icons a {
-  font-size: 1.6em;
+.col-liens a {
+  font-size: 0.95rem;
+  position: relative;
+  transition: color var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease);
 }
-.services-icons a:hover {
-  color: #1c4388;
+
+.col-liens a:hover {
+  color: #ffd166;
 }
-.footer-bottom {
-  display: flex;
-  justify-content: center;
-  border-top: 1px solid #1c4388;
-  padding: 2em;
+
+.col-ecole address {
+  font-style: normal;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.88);
 }
-.footer .menu {
-  margin-bottom: 1em;
+
+/* Lettre d'information ------------------------------------------------------ */
+
+.col-lettre p {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  margin: 0 0 1rem;
+  color: rgba(255, 255, 255, 0.88);
 }
-.footer .menu li {
-  display: inline-block;
-  margin: 0 0.7em 0.7em 0;
-  text-align: center;
-}
-.footer .menu a {
-  transition: 0.3s;
-  font-weight: 600;
-}
-.footer .menu a:hover {
-  color: #1c4388;
-}
+
 .input-wrap {
-  margin: 1em 0;
   display: flex;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.12);
 }
+
 .input-wrap input {
-  padding: 0.5em;
+  flex: 1;
+  min-width: 0;
+  padding: 0.7rem 0.85rem;
   border: none;
-  background: #20232a;
-  color: #ccc;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-size: 0.9rem;
 }
+
+.input-wrap input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
 .input-wrap input:focus {
   outline: none;
-}
-.input-wrap button {
-  padding: 0.8em;
-  background: #22cb49;
-  border: none;
-  color: #1c4388;
-  transition: 0.3s;
-}
-.input-wrap button:hover {
-  background: #fff;
-  color: #111;
-}
-iframe{
-  border-radius: 60px;
+  background: rgba(255, 255, 255, 0.08);
 }
 
-/* Responsivité */
-@media screen and (max-width: 938px) {
+.input-wrap button {
+  /* Zone tactile confortable pour un doigt. */
+  min-width: 48px;
+  padding: 0 1rem;
+  border: none;
+  background: #ffd166;
+  color: #10331a;
+  cursor: pointer;
+  transition: background-color var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease);
+}
+
+.input-wrap button:hover {
+  background: #fff;
+}
+
+.message-lettre {
+  margin-top: 0.75rem;
+  font-size: 0.82rem;
+  color: #ffd166;
+}
+
+/* Masque à l'écran mais lu par les lecteurs d'écran. */
+.visuellement-cache {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Bas de page --------------------------------------------------------------- */
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  padding: 1.25rem 2rem;
+  text-align: center;
+}
+
+.footer-bottom p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+/* Contour visible uniquement au clavier. */
+.footer a:focus-visible,
+.footer button:focus-visible,
+.footer input:focus-visible {
+  outline: 2px solid #ffd166;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Petits écrans ------------------------------------------------------------- */
+
+@media screen and (max-width: 738px) {
+  .footer {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    margin-top: 2.5rem;
+  }
+
   .footer .container {
-    flex-direction: column;
+    padding: 2rem 1.25rem 1.5rem;
+    gap: 2rem;
   }
 }
