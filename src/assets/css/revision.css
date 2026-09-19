@@ -1,439 +1,556 @@
-/* appartition du texte */
-.text-appear {
-    max-width: 100px;
-    margin: 0px ;
-    padding: 10px 20px 0;
-    display: flex;
-}
-p {
-    text-transform: uppercase;
-    color: #000000;
-    font-weight: 90;
-    color: transparent;
-    font-size: 20px;
-}
-.message{
-  color: white;
-  text-transform: lowercase;
-}
-p span {
-    display: inline-block;
-    position: relative;
-    overflow: hidden;
-    font-size: clamp(20px, 8vw, 70px);
-    color: #000000;
-}
-p span::after {
-    content: "";
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    transform: translateX(-100%);
-}
-p:nth-child(1) {
-    font-weight: 300;
-    animation: txt-appearance 0s 1s forwards;
-}
-p:nth-child(2) {
-    animation: txt-appearance 0s 1.25s forwards;
-}
-p:nth-child(1) span::after {
-    background: #304ed3;
-    animation: slide-in 0.75s ease-out forwards,
-    slide-out 0.75s 1s ease-out forwards;
-}
-p:nth-child(2) span::after {
-    background: #11c848;
-    animation: slide-in 0.75s 0.3s ease-out forwards,
-    slide-out 0.75s 1.3s ease-out forwards;
+/* Page Révision ------------------------------------------------------------ */
+
+.revision {
+  background: #f1eae2;
+  min-height: 100vh;
+  padding-bottom: 4rem;
 }
 
-@keyframes slide-in {
-    100% {
-        transform: translateX(0%);
-    }
-}
-@keyframes slide-out {
-    100% {
-        transform: translateX(100%)
-    }
-}
-@keyframes txt-appearance {
-    100% {
-        color: #fff;
-    }
+.etape {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 150px 2rem 0;
 }
 
-
-.container {
-  max-width: 1000px;
-  margin: auto;
-  padding: 2rem;
-  font-family: Arial, sans-serif;
-  margin-top: 100px;
+.surtitre {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #118a21;
+  margin: 0 0 0.4rem;
 }
+
+.etape h1 {
+  font-size: clamp(1.6rem, 3.6vw, 2.2rem);
+  line-height: 1.2;
+  color: #10331a;
+  margin: 0 0 0.6rem;
+}
+
+.chapeau {
+  color: #5a5a5a;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0 0 2.25rem;
+  max-width: 56ch;
+}
+
+.retour {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  margin-bottom: 0.75rem;
+  padding: 0 0.9rem 0 0;
+  border: none;
+  background: transparent;
+  color: #118a21;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.retour:hover {
+  text-decoration: underline;
+}
+
+/* Choix de la technique ----------------------------------------------------- */
+
+.grille-techniques {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.carte-technique {
+  flex: 1 1 250px;
+  max-width: 340px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  background: #fff;
+  border: 1px solid rgba(17, 138, 33, 0.14);
+  border-radius: 16px;
+  padding: 1.75rem 1.5rem;
+  box-shadow: 0 2px 4px rgba(16, 51, 26, 0.05);
+  transition:
+    transform var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease),
+    box-shadow var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease);
+}
+
+.carte-technique:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(16, 51, 26, 0.12);
+}
+
+/* Une carte annoncée mais pas encore en service se distingue franchement :
+   elle reste lisible, sans faire croire qu'on peut cliquer. */
+.carte-technique.indisponible {
+  background: rgba(255, 255, 255, 0.6);
+  border-style: dashed;
+}
+
+.carte-technique.indisponible:hover {
+  transform: none;
+  box-shadow: 0 2px 4px rgba(16, 51, 26, 0.05);
+}
+
+.pastille {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: rgba(17, 138, 33, 0.1);
+  color: #118a21;
+  font-size: 1.35rem;
+}
+
+.carte-technique h2 {
+  font-size: 1.08rem;
+  line-height: 1.3;
+  color: #10331a;
+  margin: 0;
+}
+
+.carte-technique p {
+  font-size: 0.93rem;
+  line-height: 1.6;
+  color: #5a5a5a;
+  margin: 0;
+}
+
+.action {
+  align-self: flex-start;
+  margin-top: 0.5rem;
+  min-height: 44px;
+  padding: 0 1.4rem;
+  border: none;
+  border-radius: 9px;
+  background: #118a21;
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease);
+}
+
+.action:hover {
+  background: #0d6b19;
+}
+
+.bientot {
+  align-self: flex-start;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #8a6d1f;
+  background: rgba(255, 209, 102, 0.35);
+  border-radius: 999px;
+  padding: 0.35rem 0.8rem;
+}
+
+/* Choix de la classe -------------------------------------------------------- */
+
+.grille-classes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.carte-classe {
+  flex: 0 0 auto;
+  min-width: 170px;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  border: 1px solid rgba(17, 138, 33, 0.25);
+  border-radius: 16px;
+  background: #fff;
+  font: inherit;
+  cursor: pointer;
+  transition:
+    transform var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease),
+    border-color var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease);
+}
+
+.carte-classe:hover:not(:disabled) {
+  transform: translateY(-3px);
+  border-color: #118a21;
+}
+
+.carte-classe:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.carte-classe .niveau {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #118a21;
+}
+
+.carte-classe .nb {
+  font-size: 0.85rem;
+  color: #6a6a6a;
+}
+
+/* Suivi du temps ------------------------------------------------------------ */
 
 .controls {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+  gap: 0.6rem;
+  margin: 1.25rem 0 1.75rem;
 }
 
 .controls input {
-  padding: 0.5rem;
-  flex: 1;
-  min-width: 180px;
+  flex: 1 1 220px;
+  min-height: 44px;
+  padding: 0 0.9rem;
+  border: 1px solid rgba(17, 138, 33, 0.28);
+  border-radius: 9px;
+  background: #fff;
+  font: inherit;
+  font-size: 0.93rem;
+}
+
+.controls input:focus {
+  outline: none;
+  border-color: #118a21;
 }
 
 .controls button {
-  padding: 0.5rem 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 44px;
+  padding: 0 1rem;
+  border: 1px solid rgba(17, 138, 33, 0.28);
+  border-radius: 9px;
+  background: #fff;
+  color: #10331a;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
   cursor: pointer;
+  transition: background-color var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease);
+}
+
+.controls button:hover {
+  background: rgba(17, 138, 33, 0.08);
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1.25rem;
 }
 
 .subject-card {
   position: relative;
-  padding: 1.2rem;
-  color: white;
-  border-radius: 8px;
-  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.4rem 1.1rem 1.1rem;
+  background: #fff;
+  border: 1px solid rgba(17, 138, 33, 0.14);
+  border-radius: 16px;
   text-align: center;
-  transition: transform 0.2s;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(16, 51, 26, 0.05);
+  transition:
+    transform var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease),
+    box-shadow var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease);
 }
+
 .subject-card:hover {
-  transform: scale(1.05);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(16, 51, 26, 0.12);
 }
 
-.icon {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
+/* Une icône de la police du site, pas un emoji : même rendu sur tous les
+   systèmes, et elle prend la couleur du thème. */
+.icone-matiere {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(17, 138, 33, 0.1);
+  color: #118a21;
+  font-size: 1.2rem;
 }
 
-.title {
-  font-weight: bold;
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
+.subject-card .title {
+  font-size: 0.98rem;
+  line-height: 1.3;
+  color: #10331a;
+  margin: 0;
+  overflow-wrap: anywhere;
 }
 
 .progress-bar {
   width: 100%;
-  height: 8px;
-  background-color: rgba(255, 255, 255, 0.3);
-  border-radius: 4px;
-  margin-bottom: 0.5rem;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(17, 138, 33, 0.14);
+  overflow: hidden;
 }
+
 .progress {
   height: 100%;
-  background-color: #ffffff;
-  border-radius: 4px;
-  transition: width 0.3s;
+  background: #118a21;
+  transition: width var(--motion-duree-entree, 420ms) var(--motion-courbe, ease);
 }
 
-.delete-btn {
-  position: absolute;
-  top: 6px;
-  right: 8px;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1rem;
-  cursor: pointer;
+.subject-card small {
+  font-size: 0.78rem;
+  color: #6a6a6a;
 }
 
-.subtasks {
-  z-index: 100;
-  position: absolute;
-  margin-top: -12rem;
-  
-  background: #c67373;
-  padding: 3rem;
-  border-radius: 18px;
-  padding: 100px;
-  padding-right: 500px;
-}
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1.5rem;
-  cursor: pointer;
+.subject-card .message {
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #6a6a6a;
+  margin: 0;
+  min-height: 2.3em;
 }
 
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-.fade-enter-from, .fade-leave-to {
-  opacity: 0;
-}
-/* lecons */
-.subtasks-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(30, 30, 30, 0.75);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-}
-
-.subtasks-popup {
-  background: #ffffff;
-  border-radius: 20px;
-  padding: 2rem 3rem;
-  width: 90%;
-  max-width: 500px;
-  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
-  animation: slideUp 0.4s ease;
-  position: relative;
-  font-family: 'Segoe UI', sans-serif;
-  text-align: left;
-}
-
-/* Animation d’apparition */
-@keyframes slideUp {
-  from {
-    transform: translateY(30px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-.subtasks-popup h2 {
-  margin-bottom: 1.2rem;
-  color: #2c3e50;
-  font-size: 1.8rem;
-  font-weight: bold;
-}
-
-.subtasks-popup ul {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 1rem;
-}
-
-.subtasks-popup li {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #f5f7fa;
-  border-radius: 10px;
-  padding: 0.6rem 1rem;
-  margin-bottom: 0.6rem;
-  transition: background-color 0.3s ease;
-}
-
-.subtasks-popup li:hover {
-  background-color: #e8f0fe;
-}
-
-.subtasks-popup input[type="checkbox"] {
-  margin-right: 1rem;
-  transform: scale(1.2);
-}
-
-.subtasks-popup .delete-sub {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  color: #e74c3c;
-  transition: transform 0.2s ease;
-}
-.subtasks-popup .delete-sub:hover {
-  transform: scale(1.3);
-  color: #c0392b;
-}
-
-.subtasks-popup input[type="text"] {
-  width: 100%;
-  padding: 0.7rem;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  font-size: 1rem;
-  margin-bottom: 1rem;
-  transition: border-color 0.3s;
-}
-.subtasks-popup input[type="text"]:focus {
-  border-color: #3498db;
-  outline: none;
-}
-
-.subtasks-popup button {
-  background-color: #4bb3fd;
-  color: white;
-  padding: 0.6rem 1.2rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
-}
-.subtasks-popup button:hover {
-  background-color: #3498db;
-  transform: translateY(-2px);
-}
-
-.close-btn {
-  position: absolute;
-  top: 12px;
-  right: 14px;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  color: #999;
-  cursor: pointer;
-  transition: color 0.3s, transform 0.2s;
-}
-.close-btn:hover {
-  color: #e74c3c;
-  transform: scale(1.2);
-}
-
-
-/* .subtasks-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-}
-
-.subtasks-popup {
-  background: rgb(38, 175, 91);
-  color: black;
-  padding: 2rem;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 600px;
-  position: relative;
-}
-
-.close-btn {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
-.delete-sub {
-  background: none;
-  border: none;
-  color: red;
-  font-weight: bold;
-  font-size: 1.2rem;
-  margin-left: 1rem;
-  cursor: pointer;
-} */
-
-/* timer */
 .timer {
-  margin-top: 1rem;
-  font-weight: bold;
-  background-color: rgba(255, 255, 255, 0.2);
-  padding: 0.5rem;
-  border-radius: 6px;
+  width: 100%;
+  margin-top: auto;
+  padding-top: 0.7rem;
+  border-top: 1px solid rgba(17, 138, 33, 0.12);
+  cursor: default;
+}
+
+.chrono {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #10331a;
 }
 
 .timer-buttons {
   display: flex;
   justify-content: center;
   gap: 0.5rem;
-  margin-top: 0.4rem;
+  margin-top: 0.6rem;
 }
 
 .timer-buttons button {
-  background-color: white;
-  color: black;
-  border: none;
-  padding: 4px 8px;
-  border-radius: 4px;
+  /* Zone tactile confortable pour un doigt. */
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(17, 138, 33, 0.25);
+  border-radius: 10px;
+  background: #fff;
+  color: #118a21;
   cursor: pointer;
-  font-weight: bold;
+  transition: background-color var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease);
 }
 
-button{
-    border-radius: 10px;
-}
-button:hover{
-    background: rgb(188, 186, 186);
-}
-.play:hover{    
-  animation-name: bounce;
-  animation-duration: 1s;
-  animation-timing-function: ease-in;
-  animation-iteration-count: 1s;
-}
-@keyframes bounce {
-  0% {
-    transform: translateY(0);
-    animation-timing-function: ease-out;
-  }
-  50% {
-    transform: translateY(-5px);
-    animation-timing-function: ease-in;
-  }
-  100% {
-    transform: translateY(0);
-    animation-timing-function: ease-out;
-  }
+.timer-buttons button:hover {
+  background: rgba(17, 138, 33, 0.1);
 }
 
+.delete-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #a33;
+  cursor: pointer;
+}
 
-/* Adaptation aux petits écrans ------------------------------------------------ */
-/* La grille des matières est déjà fluide grâce à auto-fill et minmax : c'est la
-   seule page du site qui était correctement construite. Ne restent que les
-   respirations à resserrer et les zones tactiles à agrandir. */
+.delete-btn:hover {
+  background: rgba(170, 51, 51, 0.1);
+}
+
+/* Fenêtre des leçons -------------------------------------------------------- */
+
+.subtasks-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(16, 51, 26, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  z-index: 200;
+}
+
+.subtasks-popup {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  max-height: 80vh;
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 18px;
+  padding: 1.75rem 1.5rem;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.28);
+}
+
+.subtasks-popup h2 {
+  margin: 0 0 1.1rem;
+  font-size: 1.15rem;
+  color: #10331a;
+  padding-right: 2rem;
+}
+
+.subtasks-popup ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.1rem;
+}
+
+.subtasks-popup li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(17, 138, 33, 0.1);
+}
+
+.subtasks-popup li.aucune {
+  color: #6a6a6a;
+  font-size: 0.9rem;
+  border-bottom: none;
+}
+
+.subtasks-popup label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.94rem;
+  cursor: pointer;
+}
+
+.subtasks-popup input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  accent-color: #118a21;
+}
+
+.delete-sub {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #a33;
+  cursor: pointer;
+}
+
+.delete-sub:hover {
+  background: rgba(170, 51, 51, 0.1);
+}
+
+.ajout-lecon {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.ajout-lecon input {
+  flex: 1;
+  min-height: 44px;
+  padding: 0 0.9rem;
+  border: 1px solid rgba(17, 138, 33, 0.28);
+  border-radius: 9px;
+  font: inherit;
+  font-size: 0.93rem;
+}
+
+.ajout-lecon input:focus {
+  outline: none;
+  border-color: #118a21;
+}
+
+.ajout-lecon button {
+  min-height: 44px;
+  padding: 0 1.2rem;
+  border: none;
+  border-radius: 9px;
+  background: #118a21;
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ajout-lecon button:hover {
+  background: #0d6b19;
+}
+
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: #10331a;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  background: rgba(16, 51, 26, 0.08);
+}
+
+/* Contour visible uniquement au clavier. */
+.etape button:focus-visible,
+.etape input:focus-visible,
+.subtasks-popup button:focus-visible,
+.subtasks-popup input:focus-visible {
+  outline: 2px solid #118a21;
+  outline-offset: 3px;
+}
+
+/* Petits écrans -------------------------------------------------------------- */
+
 @media screen and (max-width: 738px) {
-  .container {
-    padding: 1rem;
-    margin-top: 90px;
+  .etape {
+    padding: 100px 1.25rem 0;
   }
 
-  .controls input,
-  .controls button {
-    /* Zone tactile confortable pour un doigt. */
-    min-height: 44px;
-  }
-
-  .controls input {
-    min-width: 0;
+  .carte-technique,
+  .carte-classe {
+    max-width: 100%;
     flex: 1 1 100%;
   }
 
-  .subtasks-popup {
-    padding: 1.5rem 1.25rem;
-    width: calc(100% - 2rem);
+  .controls input {
+    flex: 1 1 100%;
   }
 
-  .timer-buttons button {
-    min-width: 44px;
-    min-height: 44px;
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1rem;
+  }
+
+  .subtasks-popup {
+    padding: 1.5rem 1.15rem;
   }
 }

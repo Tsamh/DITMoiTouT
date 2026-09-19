@@ -1,338 +1,280 @@
-
 <template>
-  
-  <h1>&nbsp</h1>
-  
-  <div class="container">
-    <!-- services -->
+  <div class="revision">
+    <!-- Ecran 1 : choix de la technique de revision -->
+    <section v-if="!technique" class="etape" v-reveal>
+      <p class="surtitre">Révision</p>
+      <h1>Comment voulez-vous réviser ?</h1>
+      <p class="chapeau">
+        Choisissez une méthode. Vous pourrez en changer à tout moment.
+      </p>
 
-        <div class="text-appear" v-reveal>
-          <p>
-            <span>
-              Allez
+      <div class="grille-techniques" v-reveal.stagger>
+        <article
+          v-for="t in techniques"
+          :key="t.id"
+          class="carte-technique"
+          :class="{ indisponible: !t.disponible }"
+        >
+          <span class="pastille"><i class="fa-solid" :class="t.icone" aria-hidden="true"></i></span>
+          <h2>{{ t.nom }}</h2>
+          <p>{{ t.description }}</p>
+          <button
+            v-if="t.disponible"
+            type="button"
+            class="action"
+            @click="technique = t.id"
+          >Commencer</button>
+          <span v-else class="bientot">Bientôt disponible</span>
+        </article>
+      </div>
+    </section>
+
+    <!-- Ecran 2 : choix de la classe, avant toute matiere -->
+    <section v-else-if="!classe" class="etape" v-reveal>
+      <button type="button" class="retour" @click="technique = null">
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Changer de méthode
+      </button>
+      <p class="surtitre">Suivi du temps</p>
+      <h1>Quelle classe révisez-vous ?</h1>
+      <p class="chapeau">Les matières affichées seront celles de cette classe.</p>
+
+      <div class="grille-classes" v-reveal.stagger>
+        <button
+          v-for="c in CLASSES"
+          :key="c"
+          type="button"
+          class="carte-classe"
+          :disabled="!matieresDe(c).length"
+          @click="choisirClasse(c)"
+        >
+          <span class="niveau">{{ c }}</span>
+          <span class="nb">
+            {{ matieresDe(c).length ? matieresDe(c).length + ' matières' : 'à renseigner' }}
+          </span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Ecran 3 : le suivi du temps proprement dit -->
+    <section v-else class="etape" v-reveal>
+      <button type="button" class="retour" @click="classe = null">
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Changer de classe
+      </button>
+      <p class="surtitre">Suivi du temps · {{ classe }}</p>
+      <h1>Mes matières</h1>
+
+      <div class="controls" v-reveal>
+        <input v-model="nouvelleMatiere" placeholder="Ajouter une matière" @keyup.enter="ajouterMatiere" />
+        <button type="button" @click="ajouterMatiere">
+          <i class="fa-solid fa-plus" aria-hidden="true"></i> Ajouter
+        </button>
+        <button type="button" @click="trier(1)">
+          <i class="fa-solid fa-arrow-down-a-z" aria-hidden="true"></i> A vers Z
+        </button>
+        <button type="button" @click="trier(-1)">
+          <i class="fa-solid fa-arrow-up-a-z" aria-hidden="true"></i> Z vers A
+        </button>
+      </div>
+
+      <div class="grid" v-reveal.stagger>
+        <article
+          v-for="m in matieresAffichees"
+          :key="m.id"
+          class="subject-card"
+          @click="selection = m"
+        >
+          <button
+            v-if="m.ajoutee"
+            type="button"
+            class="delete-btn"
+            aria-label="Retirer cette matière"
+            @click.stop="retirer(m)"
+          ><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+
+          <span class="icone-matiere">
+            <i class="fa-solid" :class="iconeMatiere(m.nom)" aria-hidden="true"></i>
+          </span>
+
+          <h2 class="title">{{ m.nom }}</h2>
+
+          <div class="progress-bar">
+            <div class="progress" :style="{ width: progression(m) + '%' }"></div>
+          </div>
+          <small>{{ progression(m) }}%</small>
+
+          <p class="message">{{ message(m) }}</p>
+
+          <div class="timer" @click.stop>
+            <span class="chrono">
+              <i class="fa-regular fa-clock" aria-hidden="true"></i>
+              {{ formaterChrono(chronos[m.id]) }}
             </span>
-          </p>
-          <p>
-            <span>
-              &nbsp |&nbspREVISONS!
-            </span>
-          </p>
-        </div>
-    <h1 v-reveal>Mes matières</h1>
+            <div class="timer-buttons">
+              <button type="button" aria-label="Démarrer" @click="demarrer(m.id)">
+                <i class="fa-solid fa-play" aria-hidden="true"></i>
+              </button>
+              <button type="button" aria-label="Mettre en pause" @click="pause(m.id)">
+                <i class="fa-solid fa-pause" aria-hidden="true"></i>
+              </button>
+              <button type="button" aria-label="Remettre à zéro" @click="remettreAZero(m.id)">
+                <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
 
-    <!-- Barre d'actions -->
-    <div class="controls" v-reveal>
-      <input v-model="newTaskTitle" placeholder="Nouvelle matière" />
-      <button @click="addTask">Ajouter matière</button>
-
-      <button @click="sortAsc">Trier A → Z</button>
-      <button @click="sortDesc">Trier Z → A</button>
-    </div>
-
-    <!-- Grille des matières -->
-    <div class="grid" v-reveal.stagger>
-      <div
-        v-for="task in tasks"
-        :key="task.id"
-        class="subject-card"
-        :style="{ backgroundColor: task.color }"
-        @click="selectTask(task)"
-      >
-        <!-- Bouton supprimer matières -->
-        <button class="delete-btn" @click.stop="deleteTask(task.id)">✖</button>
-        
-        <!-- Icône générique -->
-        <div class="icon">📘</div>
-        
-        <!-- Titre -->
-        <div class="title">{{ task.title }}</div>
-        
-        <!-- Barre de progression -->
-        <div class="progress-bar">
-          <div
-          class="progress"
-          :style="{ width: computeProgress(task) + '%' }"
-          ></div>
-        </div>
-        <small>{{ computeProgress(task) }}%</small>
-
-        <p class="message">{{ getMessage(task) }}</p>
-
-        <!-- timer -->
-        <div class="timer">
-          <!-- icone horloge-->  
-          <lord-icon
-            src="https://cdn.lordicon.com/gdowkrjt.json"
-            trigger="hover"
-            colors="primary:#121331,secondary:#ebe6ef,tertiary:#4bb3fd,quaternary:#16c72e"
-            style="width:20px;height:20px">
-          </lord-icon> {{ formatTimer(timers[task.id]) }}
-            
-          <div class="timer-buttons">
-
-             <!-- icone commencer--> 
-            <button @click.stop="startTimer(task.id)">
-              <h1 class="play">▶️</h1>
-            </button>
-
-             <!-- icone pause--> 
-            <button @click.stop="pauseTimer(task.id)">
-              <lord-icon
-                src="https://cdn.lordicon.com/dngztxbn.json"
-                trigger="hover"
-                style="width:20px;height:20px">
-              </lord-icon>
-            </button>
-             <!-- icone reinitialiser--> 
-            <button @click.stop="resetTimer(task.id)">
-              <lord-icon
-                src="https://cdn.lordicon.com/uewczsuz.json"
-                trigger="hover"
-                style="width:20px;height:20px">
-              </lord-icon>
-            </button>
-
+    <!-- Lecons de la matiere selectionnee -->
+    <Transition name="page">
+      <div v-if="selection" class="subtasks-overlay" @click.self="selection = null">
+        <div class="subtasks-popup">
+          <button type="button" class="close-btn" aria-label="Fermer" @click="selection = null">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          </button>
+          <h2>{{ selection.nom }}</h2>
+          <ul>
+            <li v-for="l in leconsDe(selection)" :key="l.id">
+              <label>
+                <input type="checkbox" v-model="l.faite" />
+                <span>{{ l.titre }}</span>
+              </label>
+              <button type="button" class="delete-sub" aria-label="Supprimer la leçon" @click="supprimerLecon(l.id)">
+                <i class="fa-solid fa-trash" aria-hidden="true"></i>
+              </button>
+            </li>
+            <li v-if="!leconsDe(selection).length" class="aucune">Aucune leçon pour le moment.</li>
+          </ul>
+          <div class="ajout-lecon">
+            <input v-model="nouvelleLecon" placeholder="Nouvelle leçon" @keyup.enter="ajouterLecon" />
+            <button type="button" @click="ajouterLecon">Ajouter</button>
           </div>
         </div>
-
       </div>
-    </div>
-    
-    
-    <!-- Sous-tâches -->
-   <transition name="fade">
-      <div v-if="selectedTask" class="subtasks-overlay">
-        <div class="subtasks-popup">
-          <button class="close-btn" @click="selectedTask = null">✖</button>
-          <h2>{{ selectedTask.title }}</h2>
-          <ul>
-            <li v-for="sub in selectedTask.subtasks" :key="sub.id">
-              <input type="checkbox" v-model="sub.done" />
-              {{ sub.title }}
-              <button class="delete-sub" @click="deleteSubtask(sub.id)">🗑</button>
-            </li>
-          </ul>
-          <input v-model="newSubtaskTitle" placeholder="Nouvelle leçon" />
-          <button @click="addSubtask">Ajouter</button>
-        </div>
-      </div>
-    </transition>
-
+    </Transition>
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref, reactive, computed, onBeforeUnmount } from 'vue'
+import { CLASSES, matieresDe } from '@/data/ressources'
+import { techniques, iconeMatiere } from '@/data/techniques'
 
-export default {
-  data() {
-    return {
-      tasks: [
-        {
-          id: 1,
-          title: "MATHS",
-          color: "#3B4CCA",
-          subtasks: [
-            { id: 1, title: "Sous espace vectoriel", done: true },
-            { id: 2, title: "Matrices", done: false }
-          ]
-        },
-        {
-          id: 2,
-          title: "Système Unix",
-          color: "#00BCD4",
-          subtasks: []
-        },
-        {
-          id: 3,
-          title: "Python",
-          color: "#F28C8C",
-          subtasks: [
-            { id: 1, title: "Dictionnaires", done: true },
-            { id: 2, title: "Fonctions", done: false }
-          ]
-        },
-        {
-          id: 4,
-          title: "SQL",
-          color: "#FFA726",
-          subtasks: [
-            { id: 1, title: "Triggers", done: true },
-            { id: 2, title: "Notion des tables", done: false }
-          ]
-        },
-        {
-          id: 5,
-          title: "Anglais",
-          color: "#9575CD",
-          subtasks: [
-            { id: 1, title: "Present simple", done: true },
-            { id: 2, title: "Present continuous", done: false }
-          ]
-        },
-        {
-          id: 6,
-          title: "Bases du web",
-          color: "#F06292",
-          subtasks: [
-            { id: 1, title: "HTML", done: true },
-            { id: 2, title: "CSS", done: false }
-          ]
-        },
-        {
-          id: 7,
-          title: "Langage R",
-          color: "#F06292",
-          subtasks: [
-            { id: 1, title: "Les vecteurs", done: true },
-            { id: 2, title: "Les plots", done: false }
-          ]
-        },
-        {
-          id: 8,
-          title: "Algorithmique",
-          color: "#4DD0E1",
-          subtasks: [
-            { id: 1, title: "Les conditions", done: true },
-            { id: 2, title: "Les boucles", done: false }
-          ]
-        },
-      ],
-      timers: {},         // Stocke { taskId: { hours, minutes, seconds } }
-      intervals: {},      // Stocke les setInterval actifs pour chaque tâche
-      selectedTask: null,
-      newTaskTitle: "",
-      newSubtaskTitle: "",
-      nextTaskId: 3,
-      colors: ["#3B4CCA", "#00BCD4", "#F28C8C", "#FFA726", "#9575CD", "#F06292", "#FFD54F", "#4DD0E1"]
-    };
-  },
-  methods: {
-    selectTask(task) {
-      this.selectedTask = task;
-    },
-    
-    // Ajouter
-    addTask() {
-      const title = this.newTaskTitle.trim();
-      if (title === "") return;
+const technique = ref(null)
+const classe = ref(null)
+const selection = ref(null)
+const nouvelleMatiere = ref('')
+const nouvelleLecon = ref('')
+const sens = ref(0)
 
-      this.tasks.push({
-        id: this.nextTaskId++,
-        title: title.toUpperCase(),
-        color: this.colors[Math.floor(Math.random() * this.colors.length)],
-        subtasks: []
-      });
-      this.newTaskTitle = "";
-    },
+// Matieres ajoutees a la main par l'utilisateur, par classe.
+const ajouts = reactive({})
+// Lecons et chronos, indexes par identifiant de matiere.
+const lecons = reactive({})
+const chronos = reactive({})
+const intervalles = {}
 
-    // Supprimer matiere
-    deleteTask(id) {
-      this.tasks = this.tasks.filter(task => task.id !== id);
-      if (this.selectedTask && this.selectedTask.id === id) {
-        this.selectedTask = null;
-      }
-    },
-    
-    // Ajouter lecon
-    addSubtask() {
-      if (this.newSubtaskTitle.trim() === "") return;
+function choisirClasse(c) {
+  if (!matieresDe(c).length) return
+  classe.value = c
+}
 
-      const newId = this.selectedTask.subtasks.length + 1;
-      this.selectedTask.subtasks.push({
-        id: newId,
-        title: this.newSubtaskTitle,
-        done: false
-      });
+const matieresAffichees = computed(() => {
+  if (!classe.value) return []
+  const base = matieresDe(classe.value).map((m) => ({ ...m, ajoutee: false }))
+  const perso = (ajouts[classe.value] ?? []).map((m) => ({ ...m, ajoutee: true }))
+  const liste = [...base, ...perso]
+  if (sens.value) liste.sort((a, b) => sens.value * a.nom.localeCompare(b.nom))
+  return liste
+})
 
-      this.newSubtaskTitle = "";
-    },
-    
-     deleteSubtask(subId) {
-      this.selectedTask.subtasks = this.selectedTask.subtasks.filter(sub => sub.id !== subId);
-    },
-    // Barre de progression
-    computeProgress(task) {
-      if (!task.subtasks.length) return 0;
-      const completed = task.subtasks.filter(sub => sub.done).length;
-      return Math.round((completed / task.subtasks.length) * 100);
-    },
+function trier(direction) {
+  sens.value = direction
+}
 
-    // Trier
-    sortAsc() {
-      this.tasks.sort((a, b) => a.title.localeCompare(b.title));
-    },
-    sortDesc() {
-      this.tasks.sort((a, b) => b.title.localeCompare(a.title));
-    },
+function ajouterMatiere() {
+  const nom = nouvelleMatiere.value.trim()
+  if (!nom || !classe.value) return
+  if (!ajouts[classe.value]) ajouts[classe.value] = []
+  ajouts[classe.value].push({ id: `perso-${classe.value}-${Date.now()}`, nom })
+  nouvelleMatiere.value = ''
+}
 
-    // timer
-    startTimer(taskId) {
-  if (this.intervals[taskId]) return;
+function retirer(m) {
+  const liste = ajouts[classe.value] ?? []
+  const i = liste.findIndex((x) => x.id === m.id)
+  if (i !== -1) liste.splice(i, 1)
+  if (selection.value && selection.value.id === m.id) selection.value = null
+}
 
-  if (!this.timers[taskId]) {
-    this.timers[taskId] = { hours: 0, minutes: 0, seconds: 0 };
-  }
+// Lecons ---------------------------------------------------------------------
 
-  this.intervals[taskId] = setInterval(() => {
-    let time = this.timers[taskId];
-    time.seconds++;
+function leconsDe(m) {
+  if (!lecons[m.id]) lecons[m.id] = []
+  return lecons[m.id]
+}
 
-    if (time.seconds === 60) {
-      time.seconds = 0;
-      time.minutes++;
-    }
+function ajouterLecon() {
+  const titre = nouvelleLecon.value.trim()
+  if (!titre || !selection.value) return
+  leconsDe(selection.value).push({ id: `l-${Date.now()}`, titre, faite: false })
+  nouvelleLecon.value = ''
+}
 
-    if (time.minutes === 60) {
-      time.minutes = 0;
-      time.hours++;
-    }
-  }, 1000);
-},
+function supprimerLecon(id) {
+  const liste = leconsDe(selection.value)
+  const i = liste.findIndex((l) => l.id === id)
+  if (i !== -1) liste.splice(i, 1)
+}
 
-pauseTimer(taskId) {
-  clearInterval(this.intervals[taskId]);
-  this.intervals[taskId] = null;
-},
+function progression(m) {
+  const liste = lecons[m.id] ?? []
+  if (!liste.length) return 0
+  return Math.round((liste.filter((l) => l.faite).length / liste.length) * 100)
+}
 
-resetTimer(taskId) {
-  this.pauseTimer(taskId);
-  this.timers[taskId] = { hours: 0, minutes: 0, seconds: 0 };
-},
+function message(m) {
+  const liste = lecons[m.id] ?? []
+  const faites = liste.filter((l) => l.faite).length
+  if (!liste.length) return 'Ajoutez vos leçons pour suivre votre avancée.'
+  if (faites === liste.length) return 'Matière terminée. Bravo.'
+  if (faites === liste.length - 1) return 'Plus qu’une leçon, vous y êtes presque.'
+  return `${faites} leçon${faites > 1 ? 's' : ''} sur ${liste.length}.`
+}
 
-formatTimer(time) {
-  if (!time) return "00:00:00";
-  const h = String(time.hours).padStart(2, "0");
-  const m = String(time.minutes).padStart(2, "0");
-  const s = String(time.seconds).padStart(2, "0");
-  return `${h}:${m}:${s}`;
-},
-getMessage(task) {
-    const total = task.subtasks.length;
-    const doneCount = task.subtasks.filter(sub => sub.done).length;
+// Chronos --------------------------------------------------------------------
 
-    if (total === 0) {
-      // Pas de leçon ajoutée
-      return "Vous n'avez pas encore de leçon ajoutée... (►__◄)";
-    }
-    if (doneCount === total) {
-      // Toutes les leçons cochées
-      return "（づ￣3￣）づ❤️～Félicitations ! Vous avez terminé la révision de cette matière 🤩";
-    }
-    if (doneCount === total - 1) {
-      // Toutes sauf une cochées
-      return "Allez-y, vous y êtes presque ! 🫣";
-    }
-    if (total > 1) {
-      // Plus d'une leçon ajoutée
-      return "Bravo, vous avez plusieurs leçons... ヾ(＠⌒‿⌒＠)ノ";
-    }
-    // (Optionnel) Cas d'une seule leçon non cochée 
-    return "";
-  }
+function demarrer(id) {
+  if (intervalles[id]) return
+  if (!chronos[id]) chronos[id] = 0
+  intervalles[id] = setInterval(() => {
+    chronos[id] = (chronos[id] ?? 0) + 1
+  }, 1000)
+}
 
-  }
-};
+function pause(id) {
+  clearInterval(intervalles[id])
+  intervalles[id] = null
+}
 
+function remettreAZero(id) {
+  pause(id)
+  chronos[id] = 0
+}
+
+function formaterChrono(secondes) {
+  const s = secondes ?? 0
+  const h = String(Math.floor(s / 3600)).padStart(2, '0')
+  const m = String(Math.floor((s % 3600) / 60)).padStart(2, '0')
+  const r = String(s % 60).padStart(2, '0')
+  return `${h}:${m}:${r}`
+}
+
+// Les chronos survivaient au depart de la page dans la version precedente :
+// autant d'intervalles laisses tourner pour rien.
+onBeforeUnmount(() => {
+  for (const id of Object.keys(intervalles)) clearInterval(intervalles[id])
+})
 </script>
 
 <style scoped src="../assets/css/revision.css"></style>
