@@ -14,23 +14,27 @@
 
     <!-- AVANTAGES -->
     <section class="features" v-reveal>
+      <p class="surtitre">La plateforme</p>
       <h2>Pourquoi choisir DITMoiTout ?</h2>
+      <p class="chapeau">
+        Un seul endroit pour retrouver vos cours, organiser vos révisions et joindre vos professeurs.
+      </p>
       <div class="feature-grid" v-reveal.stagger>
-        <div class="feature-item">
-          <i class="fas fa-brain"></i>
-          <h3>Organisation intelligente</h3>
-          <p>Classez vos matières, leçons et progrès avec fluidité.</p>
-        </div>
-        <div class="feature-item">
-          <i class="fas fa-chart-line"></i>
-          <h3>Suivi en temps réel</h3>
-          <p>Visualisez votre progression et boostez votre motivation.</p>
-        </div>
-        <div class="feature-item">
-          <i class="fas fa-folder-open"></i>
+        <article class="feature-item">
+          <span class="pastille"><i class="fas fa-folder-open"></i></span>
           <h3>Toutes vos ressources au même endroit</h3>
           <p>Supports de cours, vidéos, devoirs et examens, rangés par classe et par matière.</p>
-        </div>
+        </article>
+        <article class="feature-item">
+          <span class="pastille"><i class="fas fa-brain"></i></span>
+          <h3>Organisation intelligente</h3>
+          <p>Classez vos matières, vos leçons et votre progression sans effort.</p>
+        </article>
+        <article class="feature-item">
+          <span class="pastille"><i class="fas fa-chart-line"></i></span>
+          <h3>Suivi en temps réel</h3>
+          <p>Mesurez le temps passé sur chaque matière et voyez vos progrès s'accumuler.</p>
+        </article>
       </div>
     </section>
 
@@ -129,19 +133,82 @@ main {
   gap: 2rem;
 }
 
-.feature-item {
-  flex: 1 1 250px;
-  background: #f0f4ff;
-  border-radius: 12px;
-  padding: 2rem;
+/* Section sous la vidéo ---------------------------------------------------- */
+/* Elle était en bleu clair avec des icônes bleues, sans rapport avec le vert
+   et le beige du reste du site. Reprise sur la charte, avec une hiérarchie
+   lisible : surtitre, titre, chapeau, puis les trois cartes. */
+
+.surtitre {
   text-align: center;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #118a21;
+  margin: 0 0 0.5rem;
+}
+
+.chapeau {
+  text-align: center;
+  max-width: 54ch;
+  margin: 0 auto 2.75rem;
+  color: #4a4a4a;
+  font-size: 1.02rem;
+  line-height: 1.6;
+}
+
+.feature-item {
+  flex: 1 1 260px;
+  max-width: 340px;
+  background: #fff;
+  border: 1px solid rgba(17, 138, 33, 0.14);
+  border-radius: 16px;
+  padding: 2.25rem 1.75rem;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(16, 51, 26, 0.05);
+  transition:
+    transform var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease),
+    box-shadow var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease),
+    border-color var(--motion-duree-sortie, 220ms) var(--motion-courbe, ease);
+}
+
+.feature-item:hover {
+  transform: translateY(-4px);
+  border-color: rgba(17, 138, 33, 0.35);
+  box-shadow: 0 12px 28px rgba(16, 51, 26, 0.12);
+}
+
+/* L'icône dans une pastille verte : elle devient un repère visuel au lieu
+   d'un simple glyphe perdu au-dessus du titre. */
+.pastille {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  margin-bottom: 1.25rem;
+  border-radius: 50%;
+  background: rgba(17, 138, 33, 0.1);
 }
 
 .feature-item i {
-  font-size: 2rem;
-  color: #3B4CCA;
-  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: #118a21;
+  margin-bottom: 0;
+}
+
+.feature-item h3 {
+  font-size: 1.08rem;
+  line-height: 1.35;
+  margin-bottom: 0.6rem;
+  color: #10331a;
+}
+
+.feature-item p {
+  font-size: 0.94rem;
+  line-height: 1.6;
+  color: #5a5a5a;
+  margin: 0;
 }
 
 .demo-cards {
